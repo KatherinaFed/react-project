@@ -1,46 +1,16 @@
 import React from 'react';
 import css from './Dialogs.module.css';
-import { NavLink } from 'react-router-dom';
 
-const DialogItem = (props) => {
-  const { name, id } = props;
+import Message from './Message/Message';
+import DialogItem from './DialogItem/DialogItem';
 
-  return (
-    <div>
-      <NavLink
-        className={({ isActive }) => (isActive ? css.active : css.dialogsItems)}
-        to={`/dialogs/${id}`}
-      >
-        {name}
-      </NavLink>
-    </div>
-  );
-};
+const Dialogs = ({ dialogs, messages }) => {
 
-const Message = (props) => {
-  const { message } = props;
-  return <div className={css.message}>{message}</div>;
-};
-
-const Dialogs = (props) => {
-  let dialogsData = [
-    { id: 1, name: 'Ekaterina' },
-    { id: 2, name: 'Dima' },
-    { id: 3, name: 'Grisha' },
-    { id: 4, name: 'Vika' },
-  ];
-
-  const dialogsElements = dialogsData.map(({ id, name }) => (
+  const dialogsElements = dialogs.map(({ id, name }) => (
     <DialogItem name={name} id={id} />
   ));
 
-  let messagesData = [
-    { id: 1, message: 'Hi! What`s up?' },
-    { id: 2, message: 'I`m fine, I got a job!)' },
-    { id: 3, message: 'Congratulations!' },
-  ];
-
-  const messagesElements = messagesData.map(({ id, message }) => (
+  const messagesElements = messages.map(({ id, message }) => (
     <Message message={message} id={id} />
   ));
 
