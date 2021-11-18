@@ -9,6 +9,10 @@
   text-decoration: none;
 }
 
+.dialogsItems img {
+  width: 30px;
+}
+
 .active {
   padding: 10px;
   color: tomato;

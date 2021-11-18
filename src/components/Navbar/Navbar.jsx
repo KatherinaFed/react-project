@@ -2,7 +2,25 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import css from './Navbar.module.css';
 
-const Navbar = () => {
+const Sidebar = (props) => {
+  const { id, name, image } = props;
+
+  return (
+    <div className={css.name} id={id}>
+      <img src={image} />
+      <span className={css.caption}>{name}</span>
+    </div>
+  );
+};
+
+const Navbar = (props) => {
+  const { state } = props;
+  const { friends } = state;
+
+  const friendsElements = friends.map(({ id, name, img }) => (
+    <Sidebar id={id} name={name} image={img} />
+  ));
+
   return (
     <nav className={css.nav}>
       <div className={css.item}>
@@ -44,6 +62,10 @@ const Navbar = () => {
         >
           Settings
         </NavLink>
+      </div>
+      <div className={css.friends}>
+        <h3 className={css.head}>Friends</h3>
+        {friendsElements}
       </div>
     </nav>
   );

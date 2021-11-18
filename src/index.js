@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { dialogsData, messagesData, postsData } from './data'
+import state from './redux/state'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App dialogs={dialogsData} messages={messagesData} posts={postsData} />
+    <App state={state} />
   </React.StrictMode>,
   document.getElementById('root')
 );

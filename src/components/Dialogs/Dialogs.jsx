@@ -4,10 +4,12 @@ import css from './Dialogs.module.css';
 import Message from './Message/Message';
 import DialogItem from './DialogItem/DialogItem';
 
-const Dialogs = ({ dialogs, messages }) => {
+const Dialogs = (props) => {
+  const { state } = props;
+  const { dialogs, messages } = state;
 
-  const dialogsElements = dialogs.map(({ id, name }) => (
-    <DialogItem name={name} id={id} />
+  const dialogsElements = dialogs.map(({ id, name, img }) => (
+    <DialogItem name={name} id={id} img={img} />
   ));
 
   const messagesElements = messages.map(({ id, message }) => (
