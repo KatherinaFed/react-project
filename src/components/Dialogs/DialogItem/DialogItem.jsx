@@ -3,10 +3,10 @@ import css from './../Dialogs.module.css';
 import { NavLink } from 'react-router-dom';
 
 const DialogItem = (props) => {
-  const { name, id } = props;
-
+  const { id, name, img } = props;
   return (
     <div>
+      <img src={img} />
       <NavLink
         className={({ isActive }) => (isActive ? css.active : css.dialogsItems)}
         to={`/dialogs/${id}`}

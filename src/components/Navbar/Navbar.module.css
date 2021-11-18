@@ -12,3 +12,20 @@
 .active {
   color: tomato;
 }
+
+.head {
+  text-align: center;
+}
+
+.name {
+  display: table-cell;
+  text-align: center;
+}
+
+.friends img {
+  width: 50%;
+}
+
+.caption {
+  display: block;
+}
