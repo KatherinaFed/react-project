@@ -12,14 +12,20 @@ const MyPosts = ({ posts, addPost }) => {
   const handleAddPost = () => {
     const textValue = textInput.current.value;
     addPost(textValue);
+    textInput.current.value = '';
   };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    console.log(e.target.value)
+  }
 
   return (
     <div className={css.postsBlock}>
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea ref={textInput}></textarea>
+          <textarea onChange={handleChange} ref={textInput}></textarea>
         </div>
         <div>
           <button onClick={handleAddPost}>Add post</button>
