@@ -7,15 +7,22 @@ const MyPosts = ({ posts }) => {
     <Post message={message} likes={likes} id={id} />
   ));
 
+  const textInput = React.createRef();
+
+  const handleAddPost = () => {
+    const textValue = textInput.current.value;
+    alert(textValue)
+  };
+
   return (
     <div className={css.postsBlock}>
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea></textarea>
+          <textarea ref={textInput}></textarea>
         </div>
         <div>
-          <button>Add post</button>
+          <button onClick={handleAddPost}>Add post</button>
         </div>
         <div>
           <button>Remove post</button>
