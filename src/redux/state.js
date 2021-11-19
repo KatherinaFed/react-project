@@ -15,6 +15,7 @@ const state = {
       { id: 1, message: 'Hi, how are you?', likes: 15 },
       { id: 2, message: 'My first post', likes: 20 },
     ],
+    newPostText: '',
   },
   dialogsPage: {
     dialogs: [
@@ -28,6 +29,7 @@ const state = {
       { id: 2, message: 'I`m fine, I got a job!)' },
       { id: 3, message: 'Congratulations!' },
     ],
+    newMessage: '',
   },
   sidebarFriends: {
     friends: [
@@ -38,15 +40,52 @@ const state = {
   },
 };
 
-export const addPost = (postMessage) => {
+
+// ADDED POSTS IN PROFILE
+export const addPost = () => {
   const newItem = {
     id: 3,
-    message: postMessage,
+    message: state.profilePage.newPostText,
     likes:2,
   };
 
   state.profilePage.posts.push(newItem);
-  rerender(state, addPost);
+  state.profilePage.newPostText = '';
+  rerender(state);
 };
+
+export const updatePostText = (text) => {
+  state.profilePage.newPostText = text;
+  rerender(state);
+};
+
+// MESSAGES IN DIALOGS
+export const addMessage = () => {
+  const newItem = {
+    id: 3,
+    message: state.dialogsPage.newMessage,
+  };
+
+  state.dialogsPage.messages.push(newItem);
+  state.dialogsPage.newMessage = '';
+  rerender(state);
+};
+
+export const updateMessage = (text) => {
+  state.dialogsPage.newMessage = text;
+  rerender(state);
+};
+
+export const functions = {
+  addPosts: {
+    post: addPost,
+    updatePost: updatePostText,
+  },
+  addMessages: {
+    message: addMessage,
+    updateMessage: updateMessage,
+  },
+};
+
 
 export default state;

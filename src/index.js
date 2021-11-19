@@ -2,8 +2,8 @@ import reportWebVitals from './reportWebVitals';
 
 import { rerender } from './render'
 import state from './redux/state';
-import { addPost } from './redux/state'
+import { functions } from './redux/state'
 
-rerender(state, addPost);
+rerender(state, functions);
 
 reportWebVitals();

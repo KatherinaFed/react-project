@@ -2,7 +2,7 @@ import React from 'react';
 import css from './MyPosts.module.css';
 import Post from './Post/Post';
 
-const MyPosts = ({ posts, addPost }) => {
+const MyPosts = ({ posts, addPost, updatePostText, newText }) => {
   const postsElements = posts.map(({ id, message, likes }) => (
     <Post message={message} likes={likes} id={id} />
   ));
@@ -10,22 +10,21 @@ const MyPosts = ({ posts, addPost }) => {
   const textInput = React.createRef();
 
   const handleAddPost = () => {
-    const textValue = textInput.current.value;
-    addPost(textValue);
-    textInput.current.value = '';
+    addPost();
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    console.log(e.target.value)
-  }
+  const handleChange = () => {
+    const text = textInput.current.value;
+
+    updatePostText(text);
+  };
 
   return (
     <div className={css.postsBlock}>
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea onChange={handleChange} ref={textInput}></textarea>
+          <textarea onChange={handleChange} ref={textInput} value={newText} />
         </div>
         <div>
           <button onClick={handleAddPost}>Add post</button>
