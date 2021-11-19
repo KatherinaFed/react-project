@@ -2,7 +2,7 @@ import React from 'react';
 import css from './MyPosts.module.css';
 import Post from './Post/Post';
 
-const MyPosts = ({ posts }) => {
+const MyPosts = ({ posts, addPost }) => {
   const postsElements = posts.map(({ id, message, likes }) => (
     <Post message={message} likes={likes} id={id} />
   ));
@@ -11,7 +11,7 @@ const MyPosts = ({ posts }) => {
 
   const handleAddPost = () => {
     const textValue = textInput.current.value;
-    alert(textValue)
+    addPost(textValue);
   };
 
   return (
