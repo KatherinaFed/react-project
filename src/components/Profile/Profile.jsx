@@ -4,12 +4,17 @@ import MyPosts from './MyPosts/MyPosts';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 const Profile = (props) => {
-  const { state, addPost } = props;
-  const { posts } = state;
+  const { profilePage, addPost, updatePostText, newText } = props;
+
   return (
     <div>
       <ProfileInfo />
-      <MyPosts posts={posts} addPost={addPost} />
+      <MyPosts
+        posts={profilePage.posts}
+        addPost={addPost}
+        newText={newText}
+        updatePostText={updatePostText}
+      />
     </div>
   );
 };
