@@ -16,10 +16,23 @@ const Dialogs = (props) => {
     <Message message={message} id={id} />
   ));
 
+  const textInput = React.createRef();
+
+  const handleAddMessage = () => {
+    const textValue = textInput.current.value;
+    alert(textValue)
+  }
+
   return (
     <div className={css.dialogs}>
       <div className={css.dialogsItems}>{dialogsElements}</div>
       <div className={css.messages}>{messagesElements}</div>
+      <div>
+        <textarea ref={textInput}></textarea>
+      </div>
+      <div>
+        <button onClick={handleAddMessage}>Add message</button>
+      </div>
     </div>
   );
 };
