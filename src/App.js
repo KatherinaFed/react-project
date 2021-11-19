@@ -12,7 +12,7 @@ import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 
 const App = (props) => {
-  const { state } = props;
+  const { state, addPost } = props;
   const { profilePage, dialogsPage, sidebarFriends } = state;
 
   return (
@@ -22,7 +22,7 @@ const App = (props) => {
         <Navbar state={sidebarFriends} />
         <div className="app-wrapper-content">
           <Routes>
-            <Route path="/profile" element={<Profile state={profilePage} />} />
+            <Route path="/profile" element={<Profile state={profilePage} addPost={addPost} />} />
             <Route
               path="/dialogs/*"
               element={<Dialogs state={dialogsPage} />}

@@ -7,6 +7,16 @@ const images = {
     'https://cdn1.iconfinder.com/data/icons/avatar-97/32/avatar-02-512.png',
 };
 
+export const addPost = (postMessage) => {
+  const newItem = {
+    id: 3,
+    message: postMessage,
+    likes:2,
+  };
+
+  state.profilePage.posts.push(newItem);
+};
+
 const state = {
   profilePage: {
     posts: [
