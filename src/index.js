@@ -3,19 +3,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import state, { functions, subscribe } from './redux/state';
+import store from './redux/store';
 
-const rerender = () => {
+const rerender = (state) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App state={state} functions={functions} />
+      <App
+        state={state}
+        addPost={store.addPost.bind(store)}
+        updatePostText={store.updatePostText.bind(store)}
+        addMessages={store.addMessage.bind(store)}
+        updateMessage={store.updateMessage.bind(store)}
+      />
     </React.StrictMode>,
     document.getElementById('root')
   );
 };
 
-rerender(state, functions);
+rerender(store.getState());
 
-subscribe(rerender);
+store.subscribe(rerender);
 
 reportWebVitals();
