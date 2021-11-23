@@ -4,9 +4,7 @@ import css from './Dialogs.module.css';
 import Message from './Message/Message';
 import DialogItem from './DialogItem/DialogItem';
 
-const Dialogs = (props) => {
-  const { dialogPage, addMessage, newMessage, updateMessage } = props;
-
+const Dialogs = ({ dialogPage, dispatch, newMessage }) => {
   const dialogsElements = dialogPage.dialogs.map(({ id, name, img }) => (
     <DialogItem name={name} id={id} img={img} />
   ));
@@ -18,13 +16,13 @@ const Dialogs = (props) => {
   const textInput = React.createRef();
 
   const handleAddMessage = () => {
-    addMessage();
+    dispatch({ type: 'ADD-MESSAGE' });
   };
 
   const handleChange = () => {
     const text = textInput.current.value;
 
-    updateMessage(text);
+    dispatch({ type: 'UPDATE-MESSAGE-TEXT', text: text })
   };
 
   return (
