@@ -3,8 +3,8 @@ import css from './MyPosts.module.css';
 
 import Post from './Post/Post';
 import {
-  addPostActionCreator,
-  updatePostTextActionCreator,
+  addPostCreator,
+  updatePostTextCreator,
 } from './../../../redux/store';
 
 const MyPosts = ({ posts, dispatch, newText }) => {
@@ -16,13 +16,13 @@ const MyPosts = ({ posts, dispatch, newText }) => {
   const textInput = React.createRef();
 
   const handleAddPost = () => {
-    dispatch(addPostActionCreator());
+    dispatch(addPostCreator());
   };
 
   const handleChange = () => {
     const text = textInput.current.value;
 
-    dispatch(updatePostTextActionCreator(text));
+    dispatch(updatePostTextCreator(text));
   };
 
   return (
