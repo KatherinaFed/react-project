@@ -3,6 +3,10 @@ import css from './Dialogs.module.css';
 
 import Message from './Message/Message';
 import DialogItem from './DialogItem/DialogItem';
+import {
+  addMessageActionCreator,
+  updateMessageTextActionCreator,
+} from './../../redux/store';
 
 const Dialogs = ({ dialogPage, dispatch, newMessage }) => {
   const dialogsElements = dialogPage.dialogs.map(({ id, name, img }) => (
@@ -16,13 +20,13 @@ const Dialogs = ({ dialogPage, dispatch, newMessage }) => {
   const textInput = React.createRef();
 
   const handleAddMessage = () => {
-    dispatch({ type: 'ADD-MESSAGE' });
+    dispatch(addMessageActionCreator());
   };
 
   const handleChange = () => {
     const text = textInput.current.value;
 
-    dispatch({ type: 'UPDATE-MESSAGE-TEXT', text: text })
+    dispatch(updateMessageTextActionCreator(text));
   };
 
   return (
