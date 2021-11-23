@@ -17,7 +17,6 @@ const App = ({ state, functions }) => {
   const { addPosts, addMessages } = functions;
   const { post, updatePost } = addPosts;
   const { message, updateMessage } = addMessages;
-  // const { state, addPost, updatePostText } = props;
 
   return (
     <BrowserRouter>
