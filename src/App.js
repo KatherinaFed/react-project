@@ -11,12 +11,15 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 
-const App = ({ state, functions }) => {
-  const { profilePage, dialogsPage, sidebarFriends } = state
-  
-  const { addPosts, addMessages } = functions;
-  const { post, updatePost } = addPosts;
-  const { message, updateMessage } = addMessages;
+const App = ({
+  state,
+  addPost,
+  updatePostText,
+  addMessages,
+  updateMessage,
+}) => {
+  // debugger;
+  const { profilePage, dialogsPage, sidebarFriends } = state;
 
   return (
     <BrowserRouter>
@@ -30,9 +33,9 @@ const App = ({ state, functions }) => {
               element={
                 <Profile
                   profilePage={profilePage}
-                  addPost={post}
+                  addPost={addPost}
                   newText={profilePage.newPostText}
-                  updatePostText={updatePost}
+                  updatePostText={updatePostText}
                 />
               }
             />
@@ -41,7 +44,7 @@ const App = ({ state, functions }) => {
               element={
                 <Dialogs
                   dialogPage={dialogsPage}
-                  addMessage={message}
+                  addMessage={addMessages}
                   newMessage={dialogsPage.newMessage}
                   updateMessage={updateMessage}
                 />
