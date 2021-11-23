@@ -1,4 +1,7 @@
-import { rerender } from './../render';
+let rerender = () => {
+  console.log("State changed");
+};
+
 
 const images = {
   john:
@@ -40,7 +43,6 @@ const state = {
   },
 };
 
-
 // ADDED POSTS IN PROFILE
 export const addPost = () => {
   const newItem = {
@@ -51,12 +53,12 @@ export const addPost = () => {
 
   state.profilePage.posts.push(newItem);
   state.profilePage.newPostText = '';
-  rerender(state);
+  rerender();
 };
 
 export const updatePostText = (text) => {
   state.profilePage.newPostText = text;
-  rerender(state);
+  rerender();
 };
 
 // MESSAGES IN DIALOGS
@@ -68,12 +70,12 @@ export const addMessage = () => {
 
   state.dialogsPage.messages.push(newItem);
   state.dialogsPage.newMessage = '';
-  rerender(state);
+  rerender();
 };
 
 export const updateMessage = (text) => {
   state.dialogsPage.newMessage = text;
-  rerender(state);
+  rerender();
 };
 
 export const functions = {
@@ -87,5 +89,8 @@ export const functions = {
   },
 };
 
+export const subscribe = (observer) => {
+  rerender = observer;
+};
 
 export default state;

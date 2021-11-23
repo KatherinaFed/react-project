@@ -1,9 +1,21 @@
 import reportWebVitals from './reportWebVitals';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-import { rerender } from './render'
-import state from './redux/state';
-import { functions } from './redux/state'
+import state, { functions, subscribe } from './redux/state';
+
+const rerender = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <App state={state} functions={functions} />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+};
 
 rerender(state, functions);
+
+subscribe(rerender);
 
 reportWebVitals();
