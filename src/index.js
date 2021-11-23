@@ -8,13 +8,7 @@ import store from './redux/store';
 const rerender = (state) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App
-        state={state}
-        addPost={store.addPost.bind(store)}
-        updatePostText={store.updatePostText.bind(store)}
-        addMessages={store.addMessage.bind(store)}
-        updateMessage={store.updateMessage.bind(store)}
-      />
+      <App state={state} dispatch={store.dispatch.bind(store)} />
     </React.StrictMode>,
     document.getElementById('root')
   );

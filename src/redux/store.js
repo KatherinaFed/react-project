@@ -43,19 +43,39 @@ const store = {
     },
     sidebarFriends: {
       friends: [
-        { id: 1, name: 'John', img: 'https://w7.pngwing.com/pngs/409/621/png-transparent-computer-icons-avatar-male-user-profile-others-logo-monochrome-silhouette.png' },
-        { id: 2, name: 'Mia', img: 'https://cdn6.aptoide.com/imgs/f/4/c/f4c2d35ee761f9be3bbeff8750d67c63_icon.png' },
-        { id: 3, name: 'Margaret', img: 'https://cdn1.iconfinder.com/data/icons/avatar-97/32/avatar-02-512.png' },
+        {
+          id: 1,
+          name: 'John',
+          img:
+            'https://w7.pngwing.com/pngs/409/621/png-transparent-computer-icons-avatar-male-user-profile-others-logo-monochrome-silhouette.png',
+        },
+        {
+          id: 2,
+          name: 'Mia',
+          img:
+            'https://cdn6.aptoide.com/imgs/f/4/c/f4c2d35ee761f9be3bbeff8750d67c63_icon.png',
+        },
+        {
+          id: 3,
+          name: 'Margaret',
+          img:
+            'https://cdn1.iconfinder.com/data/icons/avatar-97/32/avatar-02-512.png',
+        },
       ],
     },
-  },
-  getState() {
-    return this._state;
   },
   _callSubscriber() {
     console.log('State changed');
   },
-  addPost() {
+
+  getState() {
+    return this._state;
+  },
+  subscribe(observer) {
+    this._callSubscriber = observer;
+  },
+
+  _addPost() {
     const newItem = {
       id: 3,
       message: this._state.profilePage.newPostText,
@@ -66,11 +86,11 @@ const store = {
     this._state.profilePage.newPostText = '';
     this._callSubscriber(this._state);
   },
-  updatePostText(text) {
+  _updatePostText(text) {
     this._state.profilePage.newPostText = text;
     this._callSubscriber(this._state);
   },
-  addMessage() {
+  _addMessage() {
     const newItem = {
       id: 3,
       message: this._state.dialogsPage.newMessage,
@@ -80,12 +100,39 @@ const store = {
     this._state.dialogsPage.newMessage = '';
     this._callSubscriber(this._state);
   },
-  updateMessage(text) {
+  _updateMessage(text) {
     this._state.dialogsPage.newMessage = text;
     this._callSubscriber(this._state);
   },
-  subscribe(observer) {
-    this._callSubscriber = observer;
+
+  dispatch(action) {
+    // debugger
+    if (action.type === 'ADD-POST') {
+      const newItem = {
+        id: 3,
+        message: this._state.profilePage.newPostText,
+        likes: 2,
+      };
+
+      this._state.profilePage.posts.push(newItem);
+      this._state.profilePage.newPostText = '';
+      this._callSubscriber(this._state);
+    } else if (action.type === 'UPDATE-POST-TEXT') {
+      this._state.profilePage.newPostText = action.text;
+      this._callSubscriber(this._state);
+    } else if (action.type === 'ADD-MESSAGE') {
+      const newItem = {
+        id: 3,
+        message: this._state.dialogsPage.newMessage,
+      };
+
+      this._state.dialogsPage.messages.push(newItem);
+      this._state.dialogsPage.newMessage = '';
+      this._callSubscriber(this._state);
+    } else if (action.type === 'UPDATE-MESSAGE-TEXT') {
+      this._state.dialogsPage.newMessage = action.text;
+      this._callSubscriber(this._state);
+    }
   },
 };
 

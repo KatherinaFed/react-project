@@ -2,7 +2,8 @@ import React from 'react';
 import css from './MyPosts.module.css';
 import Post from './Post/Post';
 
-const MyPosts = ({ posts, addPost, updatePostText, newText }) => {
+const MyPosts = ({ posts, dispatch, newText }) => {
+  // debugger
   const postsElements = posts.map(({ id, message, likes }) => (
     <Post message={message} likes={likes} id={id} />
   ));
@@ -10,13 +11,13 @@ const MyPosts = ({ posts, addPost, updatePostText, newText }) => {
   const textInput = React.createRef();
 
   const handleAddPost = () => {
-    addPost();
+    dispatch({ type: 'ADD-POST' });
   };
 
   const handleChange = () => {
     const text = textInput.current.value;
 
-    updatePostText(text);
+    dispatch({ type: 'UPDATE-POST-TEXT', text: text });
   };
 
   return (

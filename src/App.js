@@ -11,13 +11,7 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 
-const App = ({
-  state,
-  addPost,
-  updatePostText,
-  addMessages,
-  updateMessage,
-}) => {
+const App = ({ state, dispatch }) => {
   // debugger;
   const { profilePage, dialogsPage, sidebarFriends } = state;
 
@@ -33,9 +27,8 @@ const App = ({
               element={
                 <Profile
                   profilePage={profilePage}
-                  addPost={addPost}
+                  dispatch={dispatch}
                   newText={profilePage.newPostText}
-                  updatePostText={updatePostText}
                 />
               }
             />
@@ -44,9 +37,8 @@ const App = ({
               element={
                 <Dialogs
                   dialogPage={dialogsPage}
-                  addMessage={addMessages}
+                  dispatch={dispatch}
                   newMessage={dialogsPage.newMessage}
-                  updateMessage={updateMessage}
                 />
               }
             />
