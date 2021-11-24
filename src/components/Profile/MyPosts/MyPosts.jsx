@@ -7,7 +7,7 @@ import {
   updatePostTextCreator,
 } from './../../../redux/profileReducer';
 
-const MyPosts = ({ posts, dispatch, newText }) => {
+const MyPosts = ({ posts, newText, addPost, updateNewPostText }) => {
   // debugger
   const postsElements = posts.map(({ id, message, likes }) => (
     <Post message={message} likes={likes} id={id} />
@@ -15,14 +15,14 @@ const MyPosts = ({ posts, dispatch, newText }) => {
 
   const textInput = React.createRef();
 
-  const handleAddPost = () => {
-    dispatch(addPostCreator());
+  const onAddPost = () => {
+    addPost();
   };
 
-  const handleChange = () => {
+  const onPostChange = () => {
     const text = textInput.current.value;
 
-    dispatch(updatePostTextCreator(text));
+    updateNewPostText(text);
   };
 
   return (
@@ -30,10 +30,10 @@ const MyPosts = ({ posts, dispatch, newText }) => {
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea onChange={handleChange} ref={textInput} value={newText} />
+          <textarea onChange={onPostChange} ref={textInput} value={newText} />
         </div>
         <div>
-          <button onClick={handleAddPost}>Add post</button>
+          <button onClick={onAddPost}>Add post</button>
         </div>
         <div>
           <button>Remove post</button>

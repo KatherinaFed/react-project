@@ -1,7 +1,7 @@
 const ADD_POST = 'ADD-POST';
 const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 
-// Стейт, который будет возвращаться по умолчанию
+// default state
 const initialState = {
   posts: [
     { id: 1, message: 'Hi, how are you?', likes: 15 },
@@ -32,6 +32,7 @@ const profileReducer = (state = initialState, action) => {
   return state;
 };
 
+// ACTION CREATORS - функции, которые возвращают action (действие) -> объект { type: '', ... };
 export const addPostCreator = () => ({
   type: ADD_POST,
 });

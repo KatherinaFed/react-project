@@ -3,33 +3,27 @@ import css from './Dialogs.module.css';
 
 import Message from './Message/Message';
 import DialogItem from './DialogItem/DialogItem';
-import {
-  sendMessageCreator,
-  updateNewMessageBodyCreator,
-} from './../../redux/dialogsReducer';
 
-const Dialogs = ({ store, dispatch }) => {
-  const state = store.getState().dialogsPage;
+const Dialogs = ({ sendMessage, updateNewMessageBody, dialogsPage }) => {
 
-  const dialogsElements = state.dialogs.map(({ id, name, img }) => (
+  const dialogsElements = dialogsPage.dialogs.map(({ id, name, img }) => (
     <DialogItem name={name} id={id} img={img} />
   ));
 
-  const messagesElements = state.messages.map(({ id, message }) => (
+  const messagesElements = dialogsPage.messages.map(({ id, message }) => (
     <Message message={message} id={id} />
   ));
 
   const textInput = React.createRef();
 
   const onSendMessageClick = () => {
-    // debugger
-    dispatch(sendMessageCreator());
+    sendMessage();
   };
 
   const onNewMessageChange = (e) => {
     const body = e.target.value;
 
-    dispatch(updateNewMessageBodyCreator(body));
+    updateNewMessageBody(body);
   };
 
   return (
@@ -42,7 +36,7 @@ const Dialogs = ({ store, dispatch }) => {
             placeholder="Enter your message"
             onChange={onNewMessageChange}
             ref={textInput}
-            value={state.newMessageText}
+            value={dialogsPage.newMessageText}
           />
         </div>
         <div>
