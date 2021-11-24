@@ -1,7 +1,5 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
-const SEND_MESSAGE = 'SEND-MESSAGE';
-const UPDATE_MESSAGE_BODY = 'UPDATE-MESSAGE-BODY';
+import profileReducer from './profileReducer';
+import dialogsReducer from './dialogsReducer';
 
 const store = {
   _state: {
@@ -113,53 +111,12 @@ const store = {
   // DISPATCH
   dispatch(action) {
     // debugger
-    if (action.type === 'ADD-POST') {
-      const newItem = {
-        id: 3,
-        message: this._state.profilePage.newPostText,
-        likes: 2,
-      };
-
-      this._state.profilePage.posts.push(newItem);
-      this._state.profilePage.newPostText = '';
-      this._callSubscriber(this._state);
-    } else if (action.type === 'UPDATE-POST-TEXT') {
-      this._state.profilePage.newPostText = action.text;
-      this._callSubscriber(this._state);
-    } else if (action.type === 'SEND-MESSAGE') {
-      const newItem = {
-        id: 3,
-        message: this._state.dialogsPage.newMessageText,
-      };
-
-      this._state.dialogsPage.messages.push(newItem);
-      this._state.dialogsPage.newMessageText = '';
-      this._callSubscriber(this._state);
-    } else if (action.type === 'UPDATE-MESSAGE-BODY') {
-      this._state.dialogsPage.newMessageText = action.body;
-      this._callSubscriber(this._state);
-    }
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+    
+    this._callSubscriber(this._state);
   },
 };
-
-// ACTION CREATORS
-export const addPostCreator = () => ({
-  type: ADD_POST,
-});
-
-export const updatePostTextCreator = (text) => ({
-  type: UPDATE_POST_TEXT,
-  text: text,
-});
-
-export const sendMessageCreator = () => ({
-  type: SEND_MESSAGE,
-});
-
-export const updateNewMessageBodyCreator = (body) => ({
-  type: UPDATE_MESSAGE_BODY,
-  body: body,
-});
 
 export default store;
 window.store = store;

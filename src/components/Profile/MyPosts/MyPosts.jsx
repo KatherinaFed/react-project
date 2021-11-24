@@ -5,7 +5,7 @@ import Post from './Post/Post';
 import {
   addPostCreator,
   updatePostTextCreator,
-} from './../../../redux/store';
+} from './../../../redux/profileReducer';
 
 const MyPosts = ({ posts, dispatch, newText }) => {
   // debugger
