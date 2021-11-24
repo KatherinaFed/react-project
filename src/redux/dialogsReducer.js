@@ -1,6 +1,7 @@
 const SEND_MESSAGE = 'SEND-MESSAGE';
 const UPDATE_MESSAGE_BODY = 'UPDATE-MESSAGE-BODY';
 
+// default state
 const initialState = {
   dialogs: [
     {
@@ -57,6 +58,7 @@ const dialogsReducer = (state = initialState, action) => {
   return state;
 };
 
+// ACTION CREATORS
 export const sendMessageCreator = () => ({
   type: SEND_MESSAGE,
 });

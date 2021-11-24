@@ -1,5 +1,6 @@
 import profileReducer from './profileReducer';
 import dialogsReducer from './dialogsReducer';
+import sidebarReducer from './sidebarReducer';
 
 const store = {
   _state: {
@@ -113,6 +114,7 @@ const store = {
     // debugger
     this._state.profilePage = profileReducer(this._state.profilePage, action);
     this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+    this._state.sidebarFriends = sidebarReducer(this._state.sidebarFriends. action);
     
     this._callSubscriber(this._state);
   },

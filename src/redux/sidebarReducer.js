@@ -1,3 +1,4 @@
+// default state
 const initialState = {
   friends: [
     {
