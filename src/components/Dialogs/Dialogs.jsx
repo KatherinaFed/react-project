@@ -6,7 +6,7 @@ import DialogItem from './DialogItem/DialogItem';
 import {
   sendMessageCreator,
   updateNewMessageBodyCreator,
-} from './../../redux/store';
+} from './../../redux/dialogsReducer';
 
 const Dialogs = ({ store, dispatch }) => {
   const state = store.getState().dialogsPage;
@@ -39,6 +39,7 @@ const Dialogs = ({ store, dispatch }) => {
         <div>{messagesElements}</div>
         <div>
           <textarea
+            placeholder="Enter your message"
             onChange={onNewMessageChange}
             ref={textInput}
             value={state.newMessageText}
