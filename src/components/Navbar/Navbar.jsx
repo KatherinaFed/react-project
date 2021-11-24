@@ -14,6 +14,7 @@ const Sidebar = (props) => {
 };
 
 const Navbar = (props) => {
+  // debugger
   const { state } = props;
   const { friends } = state;
 
