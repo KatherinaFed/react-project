@@ -7,22 +7,15 @@ import App from './App';
 import store from './redux/reduxStore';
 import { Provider } from 'react-redux';
 
-const rerender = () => {
-  ReactDOM.render(
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>,
-    document.getElementById('root')
-  );
-};
+ReactDOM.render(
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById('root')
+);
 
-rerender(store.getState());
-
-store.subscribe(() => {
-  const state = store.getState();
-  rerender(state);
-});
+// Перерисовка дерева происходит в функции connect(), у нее есть свой subscriber (локальный)
 
 reportWebVitals();
