@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 import store from './redux/reduxStore';
-import StoreContext, { Provider } from './StoreContext';
+import { Provider } from 'react-redux';
 
 const rerender = () => {
   ReactDOM.render(
