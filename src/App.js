@@ -11,18 +11,18 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 
-const App = ({ store, state, dispatch }) => {
+const App = () => {
   // debugger;
-  const { profilePage, dialogsPage, sidebarFriends } = state;
+  // const { profilePage, dialogsPage, sidebarFriends } = state;
 
   return (
     <div className="app-wrapper">
       <Header />
-      <Navbar state={sidebarFriends} />
+      <Navbar />
       <div className="app-wrapper-content">
         <Routes>
-          <Route path="/profile" element={<Profile store={store} />} />
-          <Route path="/dialogs/*" element={<DialogsContainer store={store} />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/dialogs/*" element={<DialogsContainer />} />
           <Route path="/news" element={<News />} />
           <Route path="/music" element={<Music />} />
           <Route path="/settings" element={<Settings />} />
