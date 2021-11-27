@@ -7,11 +7,11 @@ import DialogItem from './DialogItem/DialogItem';
 const Dialogs = ({ sendMessage, updateNewMessageBody, dialogsPage }) => {
 
   const dialogsElements = dialogsPage.dialogs.map(({ id, name, img }) => (
-    <DialogItem name={name} id={id} img={img} />
+    <DialogItem name={name} key={id} id={id} img={img} />
   ));
 
   const messagesElements = dialogsPage.messages.map(({ id, message }) => (
-    <Message message={message} id={id} />
+    <Message message={message} key={id} id={id} />
   ));
 
   const textInput = React.createRef();
