@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapStateToDispatch = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addPost: () => dispatch(addPostCreator()),
     updateNewPostText: (text) => dispatch(updatePostTextCreator(text)),
@@ -21,6 +21,6 @@ const mapStateToDispatch = (dispatch) => {
 };
 
 // connect возвращает новую контейнерную компоненту
-const MyPostsContainer = connect(mapStateToProps, mapStateToDispatch)(MyPosts);
+const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
 
 export default MyPostsContainer;

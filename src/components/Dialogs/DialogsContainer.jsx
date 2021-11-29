@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapStateToDispatch = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     sendMessage: () => dispatch(sendMessageCreator()),
     updateNewMessageBody: (body) => dispatch(updateNewMessageBodyCreator(body)),
@@ -20,6 +20,6 @@ const mapStateToDispatch = (dispatch) => {
 };
 
 // connect возвращает новую контейнерную компоненту
-const DialogsContainer = connect(mapStateToProps, mapStateToDispatch)(Dialogs);
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
 
 export default DialogsContainer;
