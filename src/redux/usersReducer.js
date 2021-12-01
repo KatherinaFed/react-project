@@ -3,8 +3,7 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET-USERS';
 
 const initialState = {
-  users: [
-  ],
+  users: [],
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -16,7 +15,7 @@ const usersReducer = (state = initialState, action) => {
           // если ID из нашего state === ID из action (action creator)
           if (u.id === action.userId) {
             // возвращаем копию того ключа, который мы меняем
-            return { ...u, isFollow: true };
+            return { ...u, followed: true };
           }
           return u;
         }),
@@ -28,7 +27,7 @@ const usersReducer = (state = initialState, action) => {
           // если ID из нашего state === ID из action (action creator)
           if (u.id === action.userId) {
             // возвращаем копию того ключа, который мы меняем
-            return { ...u, isFollow: false };
+            return { ...u, followed: false };
           }
           return u;
         }),
