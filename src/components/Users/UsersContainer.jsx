@@ -5,7 +5,8 @@ import {
   setUsers,
 } from './../../redux/usersReducer';
 
-import Users from './Users';
+// import Users from './Users';
+import Users from './Users'
 
 const mapStateToProps= (state) => {
   return {
