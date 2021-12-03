@@ -1,9 +1,14 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
-const SET_USERS = 'SET-USERS';
+const SET_USERS = 'SET_USERS';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
 
 const initialState = {
   users: [],
+  pageSize: 5,
+  totalUsersCount: 0,
+  currentPage: 1,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -24,26 +29,25 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         users: state.users.map((u) => {
-          // если ID из нашего state === ID из action (action creator)
           if (u.id === action.userId) {
-            // возвращаем копию того ключа, который мы меняем
             return { ...u, followed: false };
           }
           return u;
         }),
       };
     case SET_USERS:
-      return {
-        ...state,
-        // добавляем новых юзеров, которые к нам пришли в старый массив с пользователями
-        // [...state.users] - старые пользователи, [...action.users] - новые пользователи
-        users: [...state.users, ...action.users],
-      };
+      return { ...state, users: action.users };
+    case SET_CURRENT_PAGE:
+      return { ...state, currentPage: action.currentPage };
+      case SET_TOTAL_COUNT:
+      return { ...state, totalUsersCount: action.totalCount };
     default:
       return state;
   }
 };
 
+
+// ACTIONS
 export const followAction = (userId) => ({
   type: FOLLOW,
   userId,
@@ -57,6 +61,16 @@ export const unfollowAction = (userId) => ({
 export const setUsers = (users) => ({
   type: SET_USERS,
   users,
+});
+
+export const setCurrentPage = (currentPage) => ({
+  type: SET_CURRENT_PAGE,
+  currentPage,
+});
+
+export const setTotalUsersCount = (totalCount) => ({
+  type: SET_TOTAL_COUNT,
+  totalCount,
 });
 
 export default usersReducer;
