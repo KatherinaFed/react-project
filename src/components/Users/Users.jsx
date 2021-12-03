@@ -4,9 +4,8 @@ import * as axios from 'axios';
 import userPhoto from '../../assets/images/users.png';
 
 class Users extends React.Component {
-  constructor(props) {
-    super(props);
-    // запросы на сервер делаются не в конструкторе
+  // все side effects происходят здесь
+  componentDidMount() {
     axios
       .get('https://social-network.samuraijs.com/api/1.0/users')
       .then(({ data }) => {
@@ -17,7 +16,6 @@ class Users extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.getUsers}>Get Users</button>
         {this.props.users.map((u) => (
           <div key={u.id}>
             <span>
@@ -28,15 +26,14 @@ class Users extends React.Component {
                 />
               </div>
               <div>
-                {u.isFollow ? (
-                  <button onClick={() => this.props.unfollow(u.id)}>
+                {u.followed 
+                ? (<button onClick={() => this.props.unfollow(u.id)}>
                     Unfollow
-                  </button>
-                ) : (
-                  <button onClick={() => this.props.follow(u.id)}>
+                  </button>)
+                : (<button onClick={() => this.props.follow(u.id)}>
                     Follow
-                  </button>
-                )}
+                  </button>)
+                  }
               </div>
             </span>
             <span>
