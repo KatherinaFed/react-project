@@ -52,12 +52,12 @@ const usersReducer = (state = initialState, action) => {
 
 
 // ACTIONS
-export const followAction = (userId) => ({
+export const follow = (userId) => ({
   type: FOLLOW,
   userId,
 });
 
-export const unfollowAction = (userId) => ({
+export const unfollow = (userId) => ({
   type: UNFOLLOW,
   userId,
 });
