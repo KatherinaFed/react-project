@@ -40,6 +40,14 @@ const Navbar = () => {
       </div>
       <div className={css.item}>
         <NavLink
+          to="/users"
+          className={({ isActive }) => (isActive ? css.active : css.item)}
+        >
+          Users
+        </NavLink>
+      </div>
+      <div className={css.item}>
+        <NavLink
           to="/news"
           className={({ isActive }) => (isActive ? css.active : css.item)}
         >
@@ -52,14 +60,6 @@ const Navbar = () => {
           className={({ isActive }) => (isActive ? css.active : css.item)}
         >
           Music
-        </NavLink>
-      </div>
-      <div className={css.item}>
-        <NavLink
-          to="/users"
-          className={({ isActive }) => (isActive ? css.active : css.item)}
-        >
-          Find users
         </NavLink>
       </div>
       <div className={css.item}>

@@ -1,5 +1,7 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import css from './Users.module.css';
+
 import userPhoto from '../../assets/images/users.png';
 
 // Чистый презентационный компонент 
@@ -36,10 +38,12 @@ const Users = (props) => {
         <div key={u.id}>
           <span>
             <div>
+              <NavLink to ={`/profile/${u.id}`}>
               <img
                 src={u.photos.small !== null ? u.photos.small : userPhoto}
                 className={css.img}
               />
+              </NavLink>
             </div>
             <div>
               {u.followed

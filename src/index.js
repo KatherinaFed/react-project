@@ -17,5 +17,5 @@ ReactDOM.render(
 );
 
 // Перерисовка дерева происходит в функции connect(), у нее есть свой subscriber (локальный)
-
+window.store = store;
 reportWebVitals();
