@@ -121,4 +121,3 @@ const store = {
 };
 
 export default store;
-window.store = store;
