@@ -2,18 +2,16 @@ import React from 'react';
 import * as axios from 'axios';
 import { connect } from 'react-redux';
 
-import {
-  addPostCreator,
-  setUserProfile,
-  updatePostTextCreator,
-} from '../../redux/profileReducer';
+import { useMatch } from 'react-router-dom';
+import { setUserProfile } from '../../redux/profileReducer';
 import BASE_URL from '../common/baseURL/baseURL';
 import Profile from './Profile';
 
 class ProfileContainer extends React.Component {
+
   componentDidMount() {
-    axios.get(`${BASE_URL}/profile/2`).then(({ data }) => {
-      // debugger
+    let userId = this.props.match ? this.props.match.params.userId : '21114';
+    axios.get(`${BASE_URL}/profile/${userId}`).then(({ data }) => {
       this.props.setUserProfile(data);
     });
   }
@@ -27,8 +25,13 @@ class ProfileContainer extends React.Component {
   }
 }
 
+const ProfileURLMatch = (props) => {
+  const match = useMatch('/profile/:userId/');
+  return <ProfileContainer {...props} match={match} />;
+}
+
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
 });
 
-export default connect(mapStateToProps, { setUserProfile })(ProfileContainer);
+export default connect(mapStateToProps, { setUserProfile })(ProfileURLMatch);
