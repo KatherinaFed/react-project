@@ -1,10 +1,12 @@
 import React from 'react';
+import * as axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import css from './Users.module.css';
 
+import BASE_URL from '../common/baseURL/baseURL';
 import userPhoto from '../../assets/images/users.png';
 
-// Чистый презентационный компонент 
+// Чистый презентационный компонент
 const Users = (props) => {
   const {
     totalUsersCount,
@@ -13,7 +15,7 @@ const Users = (props) => {
     onPageChanged,
     users,
     follow,
-    unfollow
+    unfollow,
   } = props;
 
   const pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -38,20 +40,55 @@ const Users = (props) => {
         <div key={u.id}>
           <span>
             <div>
-              <NavLink to ={`/profile/${u.id}`}>
-              <img
-                src={u.photos.small !== null ? u.photos.small : userPhoto}
-                className={css.img}
-              />
+              <NavLink to={`/profile/${u.id}`}>
+                <img
+                  src={u.photos.small !== null ? u.photos.small : userPhoto}
+                  className={css.img}
+                />
               </NavLink>
             </div>
             <div>
-              {u.followed
-              ? (<button onClick={() => unfollow(u.id)}>
+              {u.followed ? (
+                <button
+                  onClick={() => {
+                    axios
+                      .delete(`${BASE_URL}/follow/${u.id}`, {
+                        withCredentials: true,
+                        headers: {
+                          'API-KEY': '3e0b2939-9c10-403f-95ed-db554510011f',
+                        },
+                      })
+                      .then(({ data }) => {
+                        if (data.resultCode === 0) {
+                          unfollow(u.id);
+                        }
+                      });
+                  }}
+                >
                   Unfollow
-                </button>)
-              : (<button onClick={() => follow(u.id)}>Follow</button>)
-              }
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    axios
+                      .post(`${BASE_URL}/follow/${u.id}`, {},
+                        {
+                          withCredentials: true,
+                          headers: {
+                            'API-KEY': '3e0b2939-9c10-403f-95ed-db554510011f',
+                          },
+                        }
+                      )
+                      .then(({ data }) => {
+                        if (data.resultCode === 0) {
+                          follow(u.id);
+                        }
+                      });
+                  }}
+                >
+                  Follow
+                </button>
+              )}
             </div>
           </span>
           <span>
