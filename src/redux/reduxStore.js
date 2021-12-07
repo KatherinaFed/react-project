@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 
+import authReducer from './authReducer';
 import dialogsReducer from './dialogsReducer';
 import profileReducer from './profileReducer';
 import sidebarReducer from './sidebarReducer';
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   dialogsPage: dialogsReducer,
   sidebarFriends: sidebarReducer,
   usersPage: usersReducer,
+  auth: authReducer,
 });
 
 const reduxStore = createStore(reducers);
