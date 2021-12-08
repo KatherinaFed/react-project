@@ -4,6 +4,7 @@ const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const TOGGLE_IS_FOLLOWING_IN_PROGRESS = 'TOGGLE_IS_FOLLOWING_IN_PROGRESS';
 
 const initialState = {
   users: [],
@@ -11,6 +12,7 @@ const initialState = {
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
+  followingInProgress: [],
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -44,7 +46,20 @@ const usersReducer = (state = initialState, action) => {
     case SET_TOTAL_COUNT:
       return { ...state, totalUsersCount: action.totalCount };
     case TOGGLE_IS_FETCHING:
-      return { ...state, isFetching: action.isFetching }
+      return { ...state, isFetching: action.isFetching };
+     case TOGGLE_IS_FOLLOWING_IN_PROGRESS:
+      return {
+        ...state,
+        // при нажатии на кнопку follow/unfollow кнопка юзера (id) становится недоступной (disabled)
+        // и id добавляется в массив, при завершении процесса кнопка снова становится доступной 
+        // и id удаляется из массива;
+        followingInProgress: action.isFetching
+        // если процесс (isFetching) === true (идет) => добавляем ID пользователя в массив,
+        // вместе с глубоким копированием старых данных (других ID)
+        ? [...state.followingInProgress, action.id]
+        // если процесс (isFetching) === false (завершен) => удаляем ID пользователя из массива
+        : state.followingInProgress.filter((id) => id !== action.id)
+      };
     default:
       return state;
   }
@@ -81,5 +96,11 @@ export const toggleIsFetching = (isFetching) => ({
   type: TOGGLE_IS_FETCHING,
   isFetching,
 });
+
+export const toggleFollowingInProgress = (isFetching, id) => ({
+  type: TOGGLE_IS_FOLLOWING_IN_PROGRESS,
+  isFetching,
+  id,
+})
 
 export default usersReducer;

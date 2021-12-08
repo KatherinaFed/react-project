@@ -15,6 +15,8 @@ const Users = (props) => {
     users,
     follow,
     unfollow,
+    followingInProgress,
+    toggleFollowingInProgress,
   } = props;
 
   const pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -47,27 +49,34 @@ const Users = (props) => {
               </NavLink>
             </div>
             <div>
-              {u.followed ? (
-                <button
-                  onClick={() => {
-                    usersAPI.unfollowUsers(u.id).then((data) => {
-                      if (data.resultCode === 0) unfollow(u.id)
-                    });
-                  }}
-                >
-                  Unfollow
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    usersAPI.followUsers(u.id).then((data) => {
-                      if (data.resultCode === 0) follow(u.id)
-                    });
-                  }}
-                >
-                  Follow
-                </button>
-              )}
+              {u.followed 
+                ? (<button
+                    disabled={followingInProgress.some((id) => id === u.id)}
+                    onClick={() => {
+                      toggleFollowingInProgress(true, u.id);
+
+                      usersAPI.unfollowUsers(u.id).then((data) => {
+                       if (data.resultCode === 0) {
+                          unfollow(u.id);
+                        }
+
+                        toggleFollowingInProgress(false, u.id);
+                      });
+                    }}>Unfollow</button>)
+                : (<button
+                    disabled={followingInProgress.some((id) => id === u.id)}
+                    onClick={() => {
+                      toggleFollowingInProgress(true, u.id);
+
+                      usersAPI.followUsers(u.id).then((data) => {
+                        if (data.resultCode === 0) {
+                          follow(u.id);
+                        }
+
+                        toggleFollowingInProgress(false, u.id);
+                      });
+                    }}>Follow</button>)
+              }
             </div>
           </span>
           <span>
