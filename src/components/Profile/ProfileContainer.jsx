@@ -1,17 +1,16 @@
 import React from 'react';
-import * as axios from 'axios';
 import { connect } from 'react-redux';
 
 import { useMatch } from 'react-router-dom';
 import { setUserProfile } from '../../redux/profileReducer';
-import BASE_URL from '../common/baseURL/baseURL';
+import usersAPI from '../../api/api';
 import Profile from './Profile';
 
 class ProfileContainer extends React.Component {
 
   componentDidMount() {
     let userId = this.props.match ? this.props.match.params.userId : '21114';
-    axios.get(`${BASE_URL}/profile/${userId}`).then(({ data }) => {
+    usersAPI.getProfile(userId).then((data) => {
       this.props.setUserProfile(data);
     });
   }
