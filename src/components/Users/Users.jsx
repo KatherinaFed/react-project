@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import css from './Users.module.css';
 
-import usersAPI from '../../api/api';
 import userPhoto from '../../assets/images/users.png';
 
 // Чистый презентационный компонент
@@ -13,10 +12,9 @@ const Users = (props) => {
     currentPage,
     onPageChanged,
     users,
-    follow,
-    unfollow,
+    followThunk,
+    unfollowThunk,
     followingInProgress,
-    toggleFollowingInProgress,
   } = props;
 
   const pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -32,9 +30,7 @@ const Users = (props) => {
           <span
             className={currentPage === p && css.selectedPage}
             onClick={() => onPageChanged(p)}
-          >
-            {p}
-          </span>
+          >{p}</span>
         ))}
       </div>
       {users.map((u) => (
@@ -52,30 +48,10 @@ const Users = (props) => {
               {u.followed 
                 ? (<button
                     disabled={followingInProgress.some((id) => id === u.id)}
-                    onClick={() => {
-                      toggleFollowingInProgress(true, u.id);
-
-                      usersAPI.unfollowUsers(u.id).then((data) => {
-                       if (data.resultCode === 0) {
-                          unfollow(u.id);
-                        }
-
-                        toggleFollowingInProgress(false, u.id);
-                      });
-                    }}>Unfollow</button>)
+                    onClick={() => { unfollowThunk(u.id) }}>Unfollow</button>)
                 : (<button
                     disabled={followingInProgress.some((id) => id === u.id)}
-                    onClick={() => {
-                      toggleFollowingInProgress(true, u.id);
-
-                      usersAPI.followUsers(u.id).then((data) => {
-                        if (data.resultCode === 0) {
-                          follow(u.id);
-                        }
-
-                        toggleFollowingInProgress(false, u.id);
-                      });
-                    }}>Follow</button>)
+                    onClick={() => { followThunk(u.id) }}>Follow</button>)
               }
             </div>
           </span>

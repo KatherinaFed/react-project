@@ -1,10 +1,13 @@
 import * as axios from 'axios';
 
+import BASE_URL from '../components/common/baseUrl';
+import API_KEY from '../components/common/apiKey';
+
 const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+  baseURL: BASE_URL,
   withCredentials: true,
   headers: {
-    'API-KEY': '3e0b2939-9c10-403f-95ed-db554510011f',
+    'API-KEY': API_KEY,
   }
 });
 
@@ -16,14 +19,14 @@ const usersAPI = {
   authMe() {
     return instance.get('auth/me').then(({ data }) => data);
   },
-  getProfile(id) {
-    return instance.get(`profile/${id}`).then(({ data }) => data);
+  getProfile(userId) {
+    return instance.get(`profile/${userId}`).then(({ data }) => data);
   },
-  followUsers(id) {
-    return instance.post(`follow/${id}`, {}).then(({ data }) => data);
+  followUsers(userId) {
+    return instance.post(`follow/${userId}`, {}).then(({ data }) => data);
   },
-  unfollowUsers(id) {
-    return instance.delete(`follow/${id}`).then(({ data }) => data);
+  unfollowUsers(userId) {
+    return instance.delete(`follow/${userId}`).then(({ data }) => data);
   },
 };
 

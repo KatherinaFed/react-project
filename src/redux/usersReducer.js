@@ -1,3 +1,5 @@
+import usersAPI from '../api/api';
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -47,24 +49,23 @@ const usersReducer = (state = initialState, action) => {
       return { ...state, totalUsersCount: action.totalCount };
     case TOGGLE_IS_FETCHING:
       return { ...state, isFetching: action.isFetching };
-     case TOGGLE_IS_FOLLOWING_IN_PROGRESS:
+    case TOGGLE_IS_FOLLOWING_IN_PROGRESS:
       return {
         ...state,
         // при нажатии на кнопку follow/unfollow кнопка юзера (id) становится недоступной (disabled)
-        // и id добавляется в массив, при завершении процесса кнопка снова становится доступной 
+        // и id добавляется в массив, при завершении процесса кнопка снова становится доступной
         // и id удаляется из массива;
         followingInProgress: action.isFetching
-        // если процесс (isFetching) === true (идет) => добавляем ID пользователя в массив,
-        // вместе с глубоким копированием старых данных (других ID)
-        ? [...state.followingInProgress, action.id]
-        // если процесс (isFetching) === false (завершен) => удаляем ID пользователя из массива
-        : state.followingInProgress.filter((id) => id !== action.id)
+          ? // если процесс (isFetching) === true (идет) => добавляем ID пользователя в массив,
+            // вместе с глубоким копированием старых данных (других ID)
+            [...state.followingInProgress, action.id]
+          : // если процесс (isFetching) === false (завершен) => удаляем ID пользователя из массива
+            state.followingInProgress.filter((id) => id !== action.id),
       };
     default:
       return state;
   }
 };
-
 
 // ACTIONS
 export const follow = (userId) => ({
@@ -101,6 +102,48 @@ export const toggleFollowingInProgress = (isFetching, id) => ({
   type: TOGGLE_IS_FOLLOWING_IN_PROGRESS,
   isFetching,
   id,
-})
+});
+
+// THUNK-FUNCTIONS
+export const getUsersThunk = (currentPage, pageSize) => {
+  // возврат функции thunk (происходит замыкание);
+  return (dispatch) => {
+    dispatch(toggleIsFetching(true));
+
+    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+      dispatch(toggleIsFetching(false));
+      dispatch(setUsers(data.items));
+      dispatch(setTotalUsersCount(data.totalCount));
+    });
+  };
+};
+
+export const followThunk = (userId) => {
+  return (dispatch) => {
+    dispatch(toggleFollowingInProgress(true, userId));
+
+    usersAPI.followUsers(userId).then((data) => {
+      if (data.resultCode === 0) {
+        dispatch(follow(userId));
+      }
+
+      dispatch(toggleFollowingInProgress(false, userId));
+    });
+  };
+};
+
+export const unfollowThunk = (userId) => {
+  return (dispatch) => {
+    dispatch(toggleFollowingInProgress(true, userId));
+
+    usersAPI.unfollowUsers(userId).then((data) => {
+      if (data.resultCode === 0) {
+        dispatch(unfollow(userId));
+      }
+
+      dispatch(toggleFollowingInProgress(false, userId));
+    });
+  };
+};
 
 export default usersReducer;

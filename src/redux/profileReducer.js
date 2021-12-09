@@ -1,3 +1,5 @@
+import usersAPI from '../api/api';
+
 const ADD_POST = 'ADD-POST';
 const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -26,7 +28,7 @@ const profileReducer = (state = initialState, action) => {
         posts: [...state.posts, newItem],
         newPostText: '',
       };
-    case UPDATE_POST_TEXT: 
+    case UPDATE_POST_TEXT:
       return {
         ...state,
         newPostText: action.text,
@@ -55,5 +57,14 @@ export const setUserProfile = (profile) => ({
   type: SET_USER_PROFILE,
   profile,
 });
+
+// THUNK-FUNCTIONS
+export const getProfileThunk = (userId) => {
+  return (dispatch) => {
+    usersAPI.getProfile(userId).then((data) => {
+      dispatch(setUserProfile(data));
+    });
+  };
+};
 
 export default profileReducer;
