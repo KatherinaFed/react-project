@@ -23,7 +23,7 @@ const authReducer = (state = initialState, action) => {
 };
 
 // ACTION
-export const setUserAuthData = (userId, email, login) => ({
+export const setAuthUserData = (userId, email, login) => ({
   type: SET_USER_AUTH_DATA,
   data: {
     userId,
@@ -33,12 +33,12 @@ export const setUserAuthData = (userId, email, login) => ({
 });
 
 // THUNK-FUNCTION
-export const isAuthThunk = () => {
+export const getAuthUserDataThunk = () => {
   return (dispatch) => {
     usersAPI.authMe().then((data) => {
       if (data.resultCode === 0) {
         const { id, email, login } = data.data;
-        dispatch(setUserAuthData(id, email, login));
+        dispatch(setAuthUserData(id, email, login));
       }
     });
   };
