@@ -1,6 +1,8 @@
 import React from 'react';
-import Preloader from '../../common/Preloader/Preloader';
 import css from './ProfileInfo.module.css';
+
+import Preloader from '../../common/Preloader/Preloader';
+import userPhoto from '../../../assets/images/users.png';
 
 const ProfileInfo = ({ profile }) => {
   if (!profile) {
@@ -14,7 +16,7 @@ const ProfileInfo = ({ profile }) => {
       </div>
       <div className={css.descriptionWrapper}>
         <div className={css.photo}>
-          <img src={profile.photos.large} />
+          {profile.photos.large ? <img src={profile.photos.large} /> : <img src={userPhoto} />}
         </div>
         <div className={css.descriptionContent}>
           <div>
