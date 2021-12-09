@@ -1,44 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  follow,
-  unfollow,
-  setUsers,
+  followThunk,
+  unfollowThunk,
   setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching,
-  toggleFollowingInProgress
+  toggleFollowingInProgress,
+  getUsersThunk
 } from './../../redux/usersReducer';
 
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
-import usersAPI from '../../api/api';
 
-// Контейнерный компонент API уровня
 class UsersContainer extends React.Component {
-  // все side effects происходят здесь
-  componentDidMount() {
-    this.props.toggleIsFetching(true);
 
-    usersAPI
-      .getUsers(this.props.currentPage, this.props.pageSize)
-      .then((data) => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(data.items);
-        this.props.setTotalUsersCount(data.totalCount);
-      });
+  componentDidMount() {
+    this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
   }
 
   onPageChanged = (currentPage) => {
     this.props.setCurrentPage(currentPage);
-    this.props.toggleIsFetching(true);
-
-    usersAPI
-    .getUsers(currentPage, this.props.pageSize)
-    .then((data) => {
-      this.props.toggleIsFetching(false);
-      this.props.setUsers(data.items);
-    });
+    this.props.getUsersThunk(currentPage, this.props.pageSize);
   };
 
   render() {
@@ -51,9 +32,8 @@ class UsersContainer extends React.Component {
           currentPage={this.props.currentPage}
           onPageChanged={this.onPageChanged}
           users={this.props.users}
-          follow={this.props.follow}
-          unfollow={this.props.unfollow}
-          toggleFollowingInProgress={this.props.toggleFollowingInProgress}
+          followThunk={this.props.followThunk}
+          unfollowThunk={this.props.unfollowThunk}
           followingInProgress={this.props.followingInProgress}
         />
       </>
@@ -73,11 +53,9 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  follow,
-  unfollow,
-  setUsers,
+  followThunk,
+  unfollowThunk,
+  getUsersThunk,
   setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching,
-  toggleFollowingInProgress
+  toggleFollowingInProgress,
 })(UsersContainer);

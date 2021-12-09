@@ -1,3 +1,5 @@
+import usersAPI from '../api/api';
+
 const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA';
 
 const initialState = {
@@ -29,5 +31,17 @@ export const setUserAuthData = (userId, email, login) => ({
     login,
   },
 });
+
+// THUNK-FUNCTION
+export const isAuthThunk = () => {
+  return (dispatch) => {
+    usersAPI.authMe().then((data) => {
+      if (data.resultCode === 0) {
+        const { id, email, login } = data.data;
+        dispatch(setUserAuthData(id, email, login));
+      }
+    });
+  };
+};
 
 export default authReducer;
