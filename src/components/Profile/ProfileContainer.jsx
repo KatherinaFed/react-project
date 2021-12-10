@@ -1,22 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Navigate, useMatch } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 
 import { getProfileThunk } from '../../redux/profileReducer';
 import Profile from './Profile';
+import { withAuthNavigate } from '../../hoc/withAuthNavigate';
+
+const MY_ID = '21114';
 
 class ProfileContainer extends React.Component {
-
   componentDidMount() {
-    let userId = this.props.match ? this.props.match.params.userId : '21114';
+    let userId = this.props.match ? this.props.match.params.userId : MY_ID;
     this.props.getProfileThunk(userId);
   }
 
   render() {
-    if (!this.props.isAuth) {
-      return <Navigate to='/login' />;
-    }
-
     return (
       <div>
         <Profile {...this.props} profile={this.props.profile} />
@@ -25,14 +23,20 @@ class ProfileContainer extends React.Component {
   }
 }
 
-const ProfileURLMatch = (props) => {
+// HOC FUNCTION
+const AuthNavigateComponent = withAuthNavigate(ProfileContainer);
+
+// Компонент для использования useMatch();
+// OLD VERSION: withRouter();
+const WithUrlDataContainerComponent = (props) => {
   const match = useMatch('/profile/:userId/');
-  return <ProfileContainer {...props} match={match} />;
-}
+  return <AuthNavigateComponent {...props} match={match} />;
+};
 
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
-  isAuth: state.auth.isAuth,
 });
 
-export default connect(mapStateToProps, { getProfileThunk })(ProfileURLMatch);
+export default connect(mapStateToProps, { getProfileThunk })(
+  WithUrlDataContainerComponent
+);
