@@ -27,10 +27,6 @@ const Dialogs = ({ sendMessage, updateNewMessageBody, dialogsPage, isAuth }) => 
     updateNewMessageBody(body);
   };
 
-  if(!isAuth) {
-    return <Navigate to='/login' />;
-  }
-
   return (
     <div className={css.dialogs}>
       <div className={css.dialogsItems}>{dialogsElements}</div>
