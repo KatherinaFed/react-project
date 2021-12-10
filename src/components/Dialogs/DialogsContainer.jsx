@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { sendMessage, updateNewMessageBody } from '../../redux/dialogsReducer';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
@@ -10,11 +11,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-// HOC FUNCTION
-const AuthNavigateComponent = withAuthNavigate(Dialogs);
-
-// connect возвращает новую контейнерную компоненту
-export default connect(mapStateToProps, {
-  sendMessage,
-  updateNewMessageBody,
-})(AuthNavigateComponent);
+export default compose(
+  connect(mapStateToProps, { sendMessage, updateNewMessageBody, }),
+  withAuthNavigate
+)(Dialogs);
