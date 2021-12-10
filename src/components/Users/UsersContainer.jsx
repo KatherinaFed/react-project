@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+
 import {
   followThunk,
   unfollowThunk,
   setCurrentPage,
   toggleFollowingInProgress,
-  getUsersThunk
+  getUsersThunk,
 } from './../../redux/usersReducer';
+import { withAuthNavigate } from '../../hoc/withAuthNavigate';
 
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 
 class UsersContainer extends React.Component {
-
   componentDidMount() {
     this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
   }
@@ -52,10 +54,21 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  followThunk,
-  unfollowThunk,
-  getUsersThunk,
-  setCurrentPage,
-  toggleFollowingInProgress,
-})(UsersContainer);
+// export default connect(mapStateToProps, {
+//   followThunk,
+//   unfollowThunk,
+//   getUsersThunk,
+//   setCurrentPage,
+//   toggleFollowingInProgress,
+// })(UsersContainer);
+
+export default compose(
+  withAuthNavigate,
+  connect(mapStateToProps, {
+    followThunk,
+    unfollowThunk,
+    getUsersThunk,
+    setCurrentPage,
+    toggleFollowingInProgress,
+  })
+)(UsersContainer);

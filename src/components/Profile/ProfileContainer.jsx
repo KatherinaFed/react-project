@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { useMatch } from 'react-router-dom';
 
 import { getProfileThunk } from '../../redux/profileReducer';
@@ -26,17 +27,24 @@ class ProfileContainer extends React.Component {
 // HOC FUNCTION
 const AuthNavigateComponent = withAuthNavigate(ProfileContainer);
 
-// Компонент для использования useMatch();
-// OLD VERSION: withRouter();
-const WithUrlDataContainerComponent = (props) => {
-  const match = useMatch('/profile/:userId/');
-  return <AuthNavigateComponent {...props} match={match} />;
+// FUNCTION
+const withRouter = () => {
+  // КОМПОНЕНТ для использования useMatch();
+  // OLD VERSION: withRouter() function;
+  const WithUrlDataContainerComponent = (props) => {
+    const match = useMatch('/profile/:userId/');
+    return <AuthNavigateComponent {...props} match={match} />;
+  };
+
+  return WithUrlDataContainerComponent;
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
 });
 
-export default connect(mapStateToProps, { getProfileThunk })(
-  WithUrlDataContainerComponent
-);
+export default compose(
+  connect(mapStateToProps, { getProfileThunk }),
+  withRouter,
+  withAuthNavigate
+)(ProfileContainer);
