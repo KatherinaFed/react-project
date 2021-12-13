@@ -5,7 +5,7 @@ import Preloader from '../../common/Preloader/Preloader';
 import userPhoto from '../../../assets/images/users.png';
 import ProfileStatus from './ProfileStatus';
 
-const ProfileInfo = ({ profile }) => {
+const ProfileInfo = ({ profile, status, updateStatus }) => {
   if (!profile) {
     return <Preloader />;
   }
@@ -17,12 +17,14 @@ const ProfileInfo = ({ profile }) => {
       </div>
       <div className={css.descriptionWrapper}>
         <div className={css.photo}>
-          {profile.photos.large ? <img src={profile.photos.large} /> : <img src={userPhoto} />}
+          {profile.photos.large
+          ? (<img src={profile.photos.large} />)
+          : (<img src={userPhoto} />)}
         </div>
         <div className={css.descriptionContent}>
           <div>
             <h3>Status:</h3>
-            <ProfileStatus status={"Hello my lovely friends!"} />
+            <ProfileStatus status={status} updateStatus={updateStatus} />
           </div>
           <div>
             <h3>My name:</h3> {profile.fullName}
@@ -40,10 +42,11 @@ const ProfileInfo = ({ profile }) => {
           </div>
           <div>
             <h3>I am looking for a job:</h3>
-            {profile.lookingForAJob
-            ? (<img src="https://img.icons8.com/office/40/000000/binoculars.png" />)
-            : (<img src="https://img.icons8.com/color/48/000000/man-with-money-skin-type-3.png" />)
-            }
+            {profile.lookingForAJob ? (
+              <img src="https://img.icons8.com/office/40/000000/binoculars.png" />
+            ) : (
+              <img src="https://img.icons8.com/color/48/000000/man-with-money-skin-type-3.png" />
+            )}
           </div>
           <div>
             <h3>Job description:</h3>
