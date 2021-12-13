@@ -2,10 +2,6 @@ import React from 'react';
 import css from './MyPosts.module.css';
 
 import Post from './Post/Post';
-import {
-  addPostCreator,
-  updatePostTextCreator,
-} from './../../../redux/profileReducer';
 
 const MyPosts = ({ posts, newText, addPost, updateNewPostText }) => {
   // debugger
