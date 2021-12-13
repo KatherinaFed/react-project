@@ -3,6 +3,7 @@ import css from './ProfileInfo.module.css';
 
 import Preloader from '../../common/Preloader/Preloader';
 import userPhoto from '../../../assets/images/users.png';
+import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = ({ profile }) => {
   if (!profile) {
@@ -19,6 +20,10 @@ const ProfileInfo = ({ profile }) => {
           {profile.photos.large ? <img src={profile.photos.large} /> : <img src={userPhoto} />}
         </div>
         <div className={css.descriptionContent}>
+          <div>
+            <h3>Status:</h3>
+            <ProfileStatus status={"Hello my lovely friends!"} />
+          </div>
           <div>
             <h3>My name:</h3> {profile.fullName}
           </div>
