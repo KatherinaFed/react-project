@@ -11,17 +11,29 @@ const instance = axios.create({
   }
 });
 
-const usersAPI = {
+// USERS
+export const usersAPI = {
   getUsers(currentPage = 1, pageSize = 10) {
     return instance.get(`users?page=${currentPage}&count=${pageSize}`)
     .then(({ data }) => data);
   },
-  authMe() {
-    return instance.get('auth/me').then(({ data }) => data);
-  },
+};
+
+// PROFILES
+export const profileAPI = {
   getProfile(userId) {
     return instance.get(`profile/${userId}`).then(({ data }) => data);
   },
+  getStatus(userId) {
+    return instance.get(`profile/status/${userId}`);
+  },
+  updateStatus(status) {
+    return instance.put('profile/status/', { status: status });
+  },
+};
+
+// SUBSCRIBERS
+export const subscribeAPI = {
   followUsers(userId) {
     return instance.post(`follow/${userId}`, {}).then(({ data }) => data);
   },
@@ -30,4 +42,9 @@ const usersAPI = {
   },
 };
 
-export default usersAPI;
+// IS AUTH ME
+export const authAPI = {
+  authMe() {
+    return instance.get('auth/me').then(({ data }) => data);
+  },
+};
