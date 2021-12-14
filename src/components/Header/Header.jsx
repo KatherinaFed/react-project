@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import css from './Header.module.css';
 
 const Header = ({ isAuth, login}) => {
-  // debugger
+  debugger
   return (
     <header className={css.header}>
       <img src="https://www.pikpng.com/pngl/b/88-889337_kingfisher-logo-png.png" />
