@@ -19,6 +19,16 @@ class ProfileStatus extends React.Component {
     if (this.state.status.length <= 300) {
       this.setState({ status: e.currentTarget.value });
     }
+  };
+
+  // метод вызывается когда меняется локальный стейт или пропсы извне
+  // в данном случае поменялся локальный стейт и чтобы его обновить,
+  // надо обязательно прописать условие для сравнения с предыдущим стейтом
+  componentDidUpdate(prevProps) {
+    debugger
+    if (this.props.status !== prevProps.status) {
+      this.setState({ status: this.props.status });
+    }
   }
 
   render() {
@@ -26,7 +36,9 @@ class ProfileStatus extends React.Component {
       <div>
         {!this.state.editMode && (
           <div>
-            <span onClick={this.activateEditMode}>{this.props.status || 'Status is empty'}</span>
+            <span onClick={this.activateEditMode}>
+              {this.props.status || 'Status is empty'}
+            </span>
           </div>
         )}
         {this.state.editMode && (
