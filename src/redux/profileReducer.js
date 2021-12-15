@@ -1,8 +1,6 @@
-// import usersAPI from '../api/api';
 import { profileAPI } from '../api/api';
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_POST_TEXT = 'UPDATE-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -12,7 +10,6 @@ const initialState = {
     { id: 1, message: 'Hi, how are you?', likes: 15 },
     { id: 2, message: 'My first post', likes: 20 },
   ],
-  newPostText: '',
   profile: null,
   status: '',
 };
@@ -22,19 +19,13 @@ const profileReducer = (state = initialState, action) => {
     case ADD_POST:
       const newItem = {
         id: 3,
-        message: state.newPostText,
+        message: action.newPostText,
         likes: 2,
       };
 
       return {
         ...state,
         posts: [...state.posts, newItem],
-        newPostText: '',
-      };
-    case UPDATE_POST_TEXT:
-      return {
-        ...state,
-        newPostText: action.text,
       };
     case SET_USER_PROFILE:
       return {
@@ -52,13 +43,9 @@ const profileReducer = (state = initialState, action) => {
 };
 
 // ACTION CREATORS - функции, которые возвращают action (действие) -> объект { type: '', ... };
-export const addPostCreator = () => ({
+export const addPostCreator = (newPostText) => ({
   type: ADD_POST,
-});
-
-export const updatePostTextCreator = (text) => ({
-  type: UPDATE_POST_TEXT,
-  text,
+  newPostText
 });
 
 export const setUserProfile = (profile) => ({
