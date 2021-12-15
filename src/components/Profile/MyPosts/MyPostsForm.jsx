@@ -23,7 +23,7 @@ const MyPostsForm = ({ addPost }) => {
             id="newPostText"
             name="newPostText"
             type="text"
-            placeholder="Enter your message"
+            placeholder="Post your message"
             onChange={handleChange}
             ref={textInput}
             value={values.newPostText}
