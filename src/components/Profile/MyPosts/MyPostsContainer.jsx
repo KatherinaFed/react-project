@@ -9,18 +9,15 @@ import MyPosts from './MyPosts';
 const mapStateToProps = (state) => {
   return {
     posts: state.profilePage.posts,
-    newText: state.profilePage.newPostText,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addPost: () => dispatch(addPostCreator()),
-    updateNewPostText: (text) => dispatch(updatePostTextCreator(text)),
+    addPost: (newPostText) => dispatch(addPostCreator(newPostText)),
   };
 };
 
-// connect возвращает новую контейнерную компоненту
 const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
 
 export default MyPostsContainer;

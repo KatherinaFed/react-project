@@ -1,5 +1,4 @@
 const SEND_MESSAGE = 'SEND-MESSAGE';
-const UPDATE_MESSAGE_BODY = 'UPDATE-MESSAGE-BODY';
 
 // default state
 const initialState = {
@@ -34,7 +33,6 @@ const initialState = {
     { id: 2, message: 'I`m fine, I got a job!)' },
     { id: 3, message: 'Congratulations!' },
   ],
-  newMessageText: '',
 };
 
 const dialogsReducer = (state = initialState, action) => {
@@ -42,19 +40,11 @@ const dialogsReducer = (state = initialState, action) => {
     case 'SEND-MESSAGE':
       const newItem = {
         id: 4,
-        message: state.newMessageText,
+        message: action.newMessageText,
       };
-      // возвращаем копию с измененными параметрами
       return {
         ...state,
         messages: [...state.messages, newItem],
-        newMessageText: '',
-      };
-    case 'UPDATE-MESSAGE-BODY':
-      // возвращаем копию с измененными параметрами
-      return { 
-        ...state,
-        newMessageText: action.body,
       };
     default:
       return state;
@@ -62,13 +52,9 @@ const dialogsReducer = (state = initialState, action) => {
 };
 
 // ACTION CREATORS
-export const sendMessage = () => ({
+export const sendMessage = (newMessageText) => ({
   type: SEND_MESSAGE,
-});
-
-export const updateNewMessageBody = (body) => ({
-  type: UPDATE_MESSAGE_BODY,
-  body: body,
+  newMessageText,
 });
 
 export default dialogsReducer;

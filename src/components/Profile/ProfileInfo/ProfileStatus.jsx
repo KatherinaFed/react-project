@@ -25,7 +25,6 @@ class ProfileStatus extends React.Component {
   // в данном случае поменялся локальный стейт и чтобы его обновить,
   // надо обязательно прописать условие для сравнения с предыдущим стейтом
   componentDidUpdate(prevProps) {
-    debugger
     if (this.props.status !== prevProps.status) {
       this.setState({ status: this.props.status });
     }
@@ -44,7 +43,7 @@ class ProfileStatus extends React.Component {
         {this.state.editMode && (
           <div>
             <input
-              autoFocus="true"
+              autoFocus={true}
               onChange={this.onStatusChange}
               onBlur={this.deactivateEditMode}
               value={this.state.status}
