@@ -4,11 +4,12 @@ import { useFormik } from 'formik';
 const MyPostsForm = ({ addPost }) => {
   const textInput = React.createRef();
 
-  const { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values, isValid, dirty } = useFormik({
     initialValues: {
       newPostText: '',
     },
     onSubmit: ({ newPostText }, { resetForm }) => {
+      console.log(newPostText);
       addPost(newPostText);
 
       resetForm();
@@ -30,7 +31,12 @@ const MyPostsForm = ({ addPost }) => {
           />
         </div>
         <div>
-          <button type="submit">Add post</button>
+          <button
+            type="submit"
+            disabled={!isValid || !dirty}
+          >
+            Add post
+          </button>
         </div>
       </div>
     </form>

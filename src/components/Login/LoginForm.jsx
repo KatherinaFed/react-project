@@ -1,55 +1,57 @@
 import React from 'react';
-import css from './Login.module.css';
+// import css from './Login.module.css';
 import { useFormik } from 'formik';
 
-import { logInSchema } from '../../utils/validators';
+import * as Yup from 'yup';
 
-const LoginForm = (props) => {
-  const { handleChange, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      login: '',
-      password: '',
-      rememberMe: false,
-    },
-    validationSchema: logInSchema,
-    onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
-    },
+const LoginForm = ({ login }) => {
+  const initialValues = {
+    email: '',
+    password: '',
+    rememberMe: false,
+  };
+
+  const logInSchema = Yup.object().shape({
+    login: Yup.string().min(4).max(10).required(),
+    password: Yup.string().min(4).max(10).required(),
   });
 
-  console.log(errors);
+  const onSubmit = ({ email, password, rememberMe }) => {
+    login(email, password, rememberMe);
+  };
+
+  const { handleChange, handleSubmit, values } = useFormik({
+    initialValues,
+    logInSchema,
+    onSubmit: (values) => onSubmit(values),
+  });
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className="form-control">
         <input
-          onChange={handleChange}
+          id="email"
           type="text"
-          id="login"
-          name="login"
-          placeholder="Login"
-          value={values.name}
-          required
+          name="email"
+          placeholder="E-mail"
+          value={values.email}
+          onChange={handleChange}
         />
-        {errors && <div className={css.error}>{errors.login}</div>}
       </div>
-      <div>
+      <div className="form-control">
         <input
-          onChange={handleChange}
-          type="text"
           id="password"
+          type="password"
           name="password"
           placeholder="Password"
           value={values.password}
-          required
-        />
-        {errors && <div className={css.error}>{errors.password}</div>}
-      </div>
-      <div>
-        <input
           onChange={handleChange}
-          type="checkbox"
+        />
+      </div>
+      <div className="form-control">
+        <input
           id="rememberMe"
+          type="checkbox"
           name="rememberMe"
           value={values.rememberMe}
         />

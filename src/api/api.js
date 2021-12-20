@@ -8,14 +8,15 @@ const instance = axios.create({
   withCredentials: true,
   headers: {
     'API-KEY': API_KEY,
-  }
+  },
 });
 
 // USERS
 export const usersAPI = {
   getUsers(currentPage = 1, pageSize = 10) {
-    return instance.get(`users?page=${currentPage}&count=${pageSize}`)
-    .then(({ data }) => data);
+    return instance
+      .get(`users?page=${currentPage}&count=${pageSize}`)
+      .then(({ data }) => data);
   },
 };
 
@@ -46,5 +47,13 @@ export const subscribeAPI = {
 export const authAPI = {
   authMe() {
     return instance.get('auth/me').then(({ data }) => data);
+  },
+  login(email, password, rememberMe = false) {
+    return instance
+      .post('auth/login', { email, password, rememberMe })
+      .then(({ data }) => data);
+  },
+  logout() {
+    return instance.delete('auth/login').then(({ data }) => data);
   },
 };

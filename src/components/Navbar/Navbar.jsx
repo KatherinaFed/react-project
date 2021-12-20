@@ -2,16 +2,16 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import css from './Navbar.module.css';
 
-const Sidebar = (props) => {
-  const { id, name, image } = props;
+// const Sidebar = (props) => {
+//   const { id, name, image } = props;
 
-  return (
-    <div className={css.name} id={id}>
-      <img src={image} />
-      <span className={css.caption}>{name}</span>
-    </div>
-  );
-};
+//   return (
+//     <div className={css.name} id={id}>
+//       <img src={image} />
+//       <span className={css.caption}>{name}</span>
+//     </div>
+//   );
+// };
 
 const Navbar = () => {
   // const state = store.getState().sidebarFriends;
