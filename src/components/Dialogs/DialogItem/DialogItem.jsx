@@ -6,7 +6,7 @@ const DialogItem = (props) => {
   const { id, name, img } = props;
   return (
     <div>
-      <img src={img} />
+      <img src={img} alt="" />
       <NavLink
         className={({ isActive }) => (isActive ? css.active : css.dialogsItems)}
         to={`/dialogs/${id}`}

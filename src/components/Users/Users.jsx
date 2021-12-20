@@ -41,6 +41,7 @@ const Users = (props) => {
                 <img
                   src={u.photos.small !== null ? u.photos.small : userPhoto}
                   className={css.img}
+                  alt=""
                 />
               </NavLink>
             </div>
