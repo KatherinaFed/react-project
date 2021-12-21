@@ -44,12 +44,14 @@ export const getAuthUserDataThunk = () => {
   };
 };
 
-export const login = (email, password, rememberMe) => {
+export const login = (email, password, rememberMe, setStatus) => {
   return (dispatch) => {
     authAPI.login(email, password, rememberMe).then((data) => {
       if (data.resultCode === 0) {
-        console.log(data)
+        // console.log(data)
         dispatch(getAuthUserDataThunk());
+      } else {
+        setStatus(data.messages[0]);
       }
     });
   };

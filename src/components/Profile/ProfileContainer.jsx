@@ -11,11 +11,11 @@ import {
 import Profile from './Profile';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
 
-const MY_ID = '21114';
-
 class ProfileContainer extends React.Component {
   componentDidMount() {
-    let userId = this.props.match ? this.props.match.params.userId : MY_ID;
+    let userId = this.props.match
+      ? this.props.match.params.userId
+      : this.props.authorisedUserId;
     this.props.getProfileThunk(userId);
     this.props.getStatusThunk(userId);
   }
@@ -52,6 +52,8 @@ const withRouter = () => {
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
+  authorisedUserId: state.auth.userId,
+  isAuth: state.auth.isAuth,
 });
 
 export default compose(
