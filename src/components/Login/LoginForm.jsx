@@ -1,5 +1,5 @@
 import React from 'react';
-// import css from './Login.module.css';
+import css from './Login.module.css';
 import { useFormik } from 'formik';
 
 import * as Yup from 'yup';
@@ -12,18 +12,22 @@ const LoginForm = ({ login }) => {
   };
 
   const logInSchema = Yup.object().shape({
-    login: Yup.string().min(4).max(10).required(),
+    email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string().min(4).max(10).required(),
   });
 
-  const onSubmit = ({ email, password, rememberMe }) => {
-    login(email, password, rememberMe);
+  const onSubmit = (values, setSubmitting, setStatus) => {
+    login(values.email, values.password, values.rememberMe, setStatus);
+
+    setSubmitting(false);
   };
 
-  const { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values, status } = useFormik({
     initialValues,
     logInSchema,
-    onSubmit: (values) => onSubmit(values),
+    onSubmit: (values, { setSubmitting, setStatus }) => {
+      onSubmit(values, setSubmitting, setStatus);
+    },
   });
 
   return (
@@ -57,6 +61,7 @@ const LoginForm = ({ login }) => {
         />
         <label htmlFor="rememberMe">Remember me</label>
       </div>
+      <div className={css.error}>{status}</div>
       <button type="submit">Login</button>
     </form>
   );
