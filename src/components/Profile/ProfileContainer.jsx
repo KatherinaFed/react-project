@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { useMatch } from 'react-router-dom';
@@ -11,43 +11,54 @@ import {
 import Profile from './Profile';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
 
-class ProfileContainer extends React.Component {
-  componentDidMount() {
-    let userId = this.props.match
-      ? this.props.match.params.userId
-      : this.props.authorisedUserId;
-    this.props.getProfileThunk(userId);
-    this.props.getStatusThunk(userId);
-  }
+const ProfileContainer = (props) => {
+  const {
+    authorisedUserId,
+    getProfileThunk,
+    getStatusThunk,
+    profile,
+    status,
+    updateStatusThunk,
+  } = props;
 
-  render() {
-    return (
-      <div>
-        <Profile
-          {...this.props}
-          profile={this.props.profile}
-          status={this.props.status}
-          updateStatus={this.props.updateStatusThunk}
-        />
-      </div>
-    );
-  }
-}
+  const profileId = useMatch('/profile/:userId/');
+
+  let id = profileId ? profileId.params.userId : authorisedUserId
+
+  // Аналогично componentDidMount и componentDidUpdate:
+  useEffect(() => {
+    const userId = id;
+
+    getProfileThunk(userId);
+    getStatusThunk(userId);
+  }, [id, getProfileThunk, getStatusThunk]);
+
+  return (
+    <div>
+      <Profile
+        {...props}
+        profile={profile}
+        status={status}
+        updateStatus={updateStatusThunk}
+      />
+    </div>
+  );
+};
 
 // HOC FUNCTION
-const AuthNavigateComponent = withAuthNavigate(ProfileContainer);
+// const AuthNavigateComponent = withAuthNavigate(ProfileContainer);
 
-// FUNCTION
-const withRouter = () => {
-  // КОМПОНЕНТ для использования useMatch();
-  // OLD VERSION: withRouter() function;
-  const WithUrlDataContainerComponent = (props) => {
-    const match = useMatch('/profile/:userId/');
-    return <AuthNavigateComponent {...props} match={match} />;
-  };
+// // FUNCTION
+// const withRouter = () => {
+//   // КОМПОНЕНТ для использования useMatch();
+//   // OLD VERSION: withRouter() function;
+//   const WithUrlDataContainerComponent = (props) => {
+//     const match = useMatch('/profile/:userId/');
+//     return <AuthNavigateComponent {...props} match={match} />;
+//   };
 
-  return WithUrlDataContainerComponent;
-};
+//   return WithUrlDataContainerComponent;
+// };
 
 const mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
@@ -62,6 +73,6 @@ export default compose(
     getStatusThunk,
     updateStatusThunk,
   }),
-  withRouter,
+  // withRouter,
   withAuthNavigate
 )(ProfileContainer);

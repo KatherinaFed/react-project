@@ -9,7 +9,6 @@ const MyPostsForm = ({ addPost }) => {
       newPostText: '',
     },
     onSubmit: ({ newPostText }, { resetForm }) => {
-      console.log(newPostText);
       addPost(newPostText);
 
       resetForm();

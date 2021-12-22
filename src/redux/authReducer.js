@@ -33,38 +33,31 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
 });
 
 // THUNK-FUNCTIONS
-export const getAuthUserDataThunk = () => {
-  return (dispatch) => {
-    authAPI.authMe().then((data) => {
-      if (data.resultCode === 0) {
-        const { id, email, login } = data.data;
-        dispatch(setAuthUserData(id, email, login, true));
-      }
-    });
-  };
+export const getAuthUserDataThunk = () => (dispatch) => {
+  authAPI.authMe().then((data) => {
+    if (data.resultCode === 0) {
+      const { id, email, login } = data.data;
+      dispatch(setAuthUserData(id, email, login, true));
+    }
+  });
 };
 
-export const login = (email, password, rememberMe, setStatus) => {
-  return (dispatch) => {
-    authAPI.login(email, password, rememberMe).then((data) => {
-      if (data.resultCode === 0) {
-        // console.log(data)
-        dispatch(getAuthUserDataThunk());
-      } else {
-        setStatus(data.messages[0]);
-      }
-    });
-  };
+export const login = (email, password, rememberMe, setStatus) => (dispatch) => {
+  authAPI.login(email, password, rememberMe).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(getAuthUserDataThunk());
+    } else {
+      setStatus(data.messages[0]);
+    }
+  });
 };
 
-export const logout = () => {
-  return (dispatch) => {
-    authAPI.logout().then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setAuthUserData(initialState));
-      }
-    });
-  };
+export const logout = () => (dispatch) => {
+  authAPI.logout().then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setAuthUserData(initialState));
+    }
+  });
 };
 
 export default authReducer;
