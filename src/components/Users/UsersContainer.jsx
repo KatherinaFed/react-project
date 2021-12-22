@@ -54,14 +54,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-// export default connect(mapStateToProps, {
-//   followThunk,
-//   unfollowThunk,
-//   getUsersThunk,
-//   setCurrentPage,
-//   toggleFollowingInProgress,
-// })(UsersContainer);
-
 export default compose(
   withAuthNavigate,
   connect(mapStateToProps, {
