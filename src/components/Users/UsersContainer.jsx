@@ -22,6 +22,8 @@ import {
   getFollowingInProgress,
 } from '../../redux/usersSelectors';
 
+
+
 class UsersContainer extends React.Component {
   componentDidMount() {
     this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);

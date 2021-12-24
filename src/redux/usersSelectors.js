@@ -1,4 +1,11 @@
-export const getUsers = (state) => state.usersPage.users;
+import { createSelector } from 'reselect';
+
+// Примитивный селектор
+const getUsersSelector = (state) => state.usersPage.users;
+
+export const getUsers = createSelector(getUsersSelector, (users) => {
+  return users.filter(u => true);
+})
 
 export const getPageSize = (state) => state.usersPage.pageSize;
 
