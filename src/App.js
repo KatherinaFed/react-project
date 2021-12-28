@@ -1,7 +1,8 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { connect, Provider } from 'react-redux';
 import './App.css';
+import store from './redux/reduxStore';
 
 import Navbar from '../src/components/Navbar/Navbar';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
@@ -51,4 +52,16 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized,
 });
 
-export default connect(mapStateToProps, { initializeApp })(App);
+const AppContainer = connect(mapStateToProps, { initializeApp })(App);
+
+const SamuraiApp = () => {
+  return (
+    <BrowserRouter>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  </BrowserRouter>
+  )
+};
+
+export default SamuraiApp;
