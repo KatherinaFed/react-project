@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// Использование useEffect позволяет синхронизировать сущности, 
+// Использование useEffect позволяет синхронизировать сущности,
 // находящиеся за пределами дерева React, со свойствами и состоянием.
 const ProfileStatusHook = (props) => {
   const [editMode, setEditMode] = useState(false);
@@ -9,10 +9,13 @@ const ProfileStatusHook = (props) => {
   // синхронизация происходит, когда меняется status
   // синхронизация с локальным и глобальным state с помощью хука =>
   useEffect(() => {
-    setStatus(props.status)
+    setStatus(props.status);
   }, [props.status]); // зависимость от статуса
 
-  const activateEditMode = () => setEditMode(true);
+  const activateEditMode = () => {
+    setEditMode(true);
+  };
+
   const deactivateEditMode = () => {
     setEditMode(false);
     props.updateStatus(status);
@@ -24,20 +27,23 @@ const ProfileStatusHook = (props) => {
 
   return (
     <div>
-      {editMode
-      ? <div>
+      {editMode ? (
+        <div>
           <input
             autoFocus={true}
             onChange={onStatusChange}
             onBlur={deactivateEditMode}
             value={status}
           />
-          <div>{300 - (status.length)}/300</div>
+          <div>{300 - status.length}/300</div>
         </div>
-      : <div>
-          <span onDoubleClick={activateEditMode}>{status || 'Status is empty'}</span>
+      ) : (
+        <div>
+          <span onDoubleClick={activateEditMode}>
+            {status || 'Status is empty'}
+          </span>
         </div>
-      }
+      )}
     </div>
   );
 };

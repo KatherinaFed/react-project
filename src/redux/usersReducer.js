@@ -1,4 +1,5 @@
 import { usersAPI, subscribeAPI } from '../api/api';
+import { updateObjectInArray } from '../utils/helpers';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -22,24 +23,20 @@ const usersReducer = (state = initialState, action) => {
     case FOLLOW:
       return {
         ...state,
-        users: state.users.map((u) => {
-          // если ID из нашего state === ID из action (action creator)
-          if (u.id === action.userId) {
-            // возвращаем копию того ключа, который мы меняем
-            return { ...u, followed: true };
-          }
-          return u;
-        }),
+        users: updateObjectInArray(state.users, action.userId, 'id', { followed: true })
+        // users: state.users.map((u) => {
+        //   // если ID из нашего state === ID из action (action creator)
+        //   if (u.id === action.userId) {
+        //     // возвращаем копию того ключа, который мы меняем
+        //     return { ...u, followed: true };
+        //   }
+        //   return u;
+        // }),
       };
     case UNFOLLOW:
       return {
         ...state,
-        users: state.users.map((u) => {
-          if (u.id === action.userId) {
-            return { ...u, followed: false };
-          }
-          return u;
-        }),
+        users: updateObjectInArray(state.users, action.userId, 'id', { followed: false })
       };
     case SET_USERS:
       return { ...state, users: action.users };
@@ -105,46 +102,42 @@ export const toggleFollowingInProgress = (isFetching, id) => ({
 });
 
 // THUNK-FUNCTIONS
-export const getUsersThunk = (page, pageSize) => {
-  // возврат функции thunk (происходит замыкание);
-  return (dispatch) => {
-    dispatch(toggleIsFetching(true));
-    dispatch(setCurrentPage(page));
 
-    usersAPI.getUsers(page, pageSize).then((data) => {
-      dispatch(toggleIsFetching(false));
-      dispatch(setUsers(data.items));
-      dispatch(setTotalUsersCount(data.totalCount));
-    });
-  };
+// GET USERS THUNK
+export const getUsersThunk = (page, pageSize) => async (dispatch) => {
+  dispatch(toggleIsFetching(true));
+  dispatch(setCurrentPage(page));
+
+  const data = await usersAPI.getUsers(page, pageSize);
+  dispatch(toggleIsFetching(false));
+  dispatch(setUsers(data.items));
+  dispatch(setTotalUsersCount(data.totalCount));
 };
 
-export const followThunk = (userId) => {
-  return (dispatch) => {
-    dispatch(toggleFollowingInProgress(true, userId));
+// function flow for follow and unfollow thunks
+const subscriberFlow = async (dispatch, userId, apiMethod, actionCreator) => {
+  dispatch(toggleFollowingInProgress(true, userId));
 
-    subscribeAPI.followUsers(userId).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(follow(userId));
-      }
+  const data = await apiMethod(userId);
+  if (data.resultCode === 0) {
+    dispatch(actionCreator(userId));
+  }
 
-      dispatch(toggleFollowingInProgress(false, userId));
-    });
-  };
+  dispatch(toggleFollowingInProgress(false, userId));
 };
 
-export const unfollowThunk = (userId) => {
-  return (dispatch) => {
-    dispatch(toggleFollowingInProgress(true, userId));
+// FOLLOW THUNK
+export const followThunk = (userId) => async (dispatch) => {
+  const apiMethod = subscribeAPI.followUsers.bind(subscribeAPI);
 
-    subscribeAPI.unfollowUsers(userId).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(unfollow(userId));
-      }
+  subscriberFlow(dispatch, userId, apiMethod, follow);
+};
 
-      dispatch(toggleFollowingInProgress(false, userId));
-    });
-  };
+// UNFOLLOW THUNK
+export const unfollowThunk = (userId) => async (dispatch) => {
+  const apiMethod = subscribeAPI.unfollowUsers.bind(subscribeAPI);
+
+  subscriberFlow(dispatch, userId, apiMethod, unfollow);
 };
 
 export default usersReducer;
