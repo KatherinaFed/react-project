@@ -1,7 +1,7 @@
 import { profileAPI } from '../api/api';
 
 const ADD_POST = 'ADD-POST';
-const DELETE_POST = 'DELETE_POST'
+const DELETE_POST = 'DELETE_POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -32,7 +32,7 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.filter((p) => p.id !== action.postId),
-      }
+      };
     case SET_USER_PROFILE:
       return {
         ...state,
@@ -51,12 +51,12 @@ const profileReducer = (state = initialState, action) => {
 // ACTION CREATORS - функции, которые возвращают action (действие) -> объект { type: '', ... };
 export const addPostCreator = (newPostText) => ({
   type: ADD_POST,
-  newPostText
+  newPostText,
 });
 
 export const deletePostCreator = (postId) => ({
   type: DELETE_POST,
-  postId
+  postId,
 });
 
 export const setUserProfile = (profile) => ({
@@ -70,30 +70,24 @@ export const setStatus = (status) => ({
 });
 
 // THUNK-FUNCTIONS
-export const getProfileThunk = (userId) => {
-  return (dispatch) => {
-    profileAPI.getProfile(userId).then((data) => {
-      dispatch(setUserProfile(data));
-    });
-  };
+export const getProfileThunk = (userId) => async (dispatch) => {
+  const response = await profileAPI.getProfile(userId);
+
+  dispatch(setUserProfile(response));
 };
 
-export const getStatusThunk = (userId) => {
-  return (dispatch) => {
-    profileAPI.getStatus(userId).then((data) => {
-      dispatch(setStatus(data.data));
-    });
-  };
+export const getStatusThunk = (userId) => async (dispatch) => {
+  const response = await profileAPI.getStatus(userId);
+
+  dispatch(setStatus(response.data));
 };
 
-export const updateStatusThunk = (status) => {
-  return (dispatch) => {
-    profileAPI.updateStatus(status).then((response) => {
-      if (response.data.resultCode === 0) {
-        dispatch(setStatus(status));
-      }
-    });
-  };
+export const updateStatusThunk = (status) => async (dispatch) => {
+  const response = await profileAPI.updateStatus(status);
+
+  if (response.data.resultCode === 0) {
+    dispatch(setStatus(status));
+  }
 };
 
 export default profileReducer;
