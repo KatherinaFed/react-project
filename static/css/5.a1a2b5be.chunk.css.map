@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Login/Login.module.css"],"names":[],"mappings":"AAAA,0BACE,YACF,CAEA,oBACE,SACF","file":"5.a1a2b5be.chunk.css","sourcesContent":[".formWrapper {\n  padding: 10px;\n}\n\n.error {\n  color: red;\n}"]}
