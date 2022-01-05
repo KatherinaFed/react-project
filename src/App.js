@@ -4,16 +4,17 @@ import { connect, Provider } from 'react-redux';
 import './App.css';
 import store from './redux/reduxStore';
 
-import Navbar from '../src/components/Navbar/Navbar';
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 // import News from './components/News/News';
 // import Music from './components/Music/Music';
 // import Settings from './components/Settings/Settings';
-import UsersContainer from './components/Users/UsersContainer';
+// import Profile from './components/Profile/Profile';
 // import ProfileContainer from './components/Profile/ProfileContainer';
-import Profile from './components/Profile/Profile';
-import HeaderContainer from './components/Header/HeaderContainer';
 // import LoginContainer from './components/Login/LoginContainer';
+
+import HeaderContainer from './components/Header/HeaderContainer';
+import Navbar from '../src/components/Navbar/Navbar';
+import UsersContainer from './components/Users/UsersContainer';
 import { initializeApp } from './redux/appReducer';
 import Preloader from './components/common/Preloader/Preloader';
 
