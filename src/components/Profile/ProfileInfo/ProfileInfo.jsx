@@ -5,21 +5,28 @@ import Preloader from '../../common/Preloader/Preloader';
 import userPhoto from '../../../assets/images/users.png';
 import ProfileStatusHook from './ProfileStatusHook';
 
-const ProfileInfo = ({ profile, status, updateStatus }) => {
+const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
   if (!profile) {
     return <Preloader />;
   }
 
+  const selectMyPhoto = (e) => {
+    if (e.target.files.length) {
+      savePhoto(e.target.files[0]);
+    }
+  };
+
   return (
     <div>
-      <div>
+      <div className={css.headerImage}>
         <img src="https://images.unsplash.com/photo-1509225770129-fbcf8a696c0b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGFub3JhbWF8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" alt="" />
       </div>
       <div className={css.descriptionWrapper}>
         <div className={css.photo}>
-          {profile.photos.large
-          ? (<img src={profile.photos.large} alt="" />)
-          : (<img src={userPhoto} alt="" />)}
+          <img src={profile.photos.large || userPhoto} alt="photo" />
+        </div>
+        <div className={css.file}>
+        {isOwner && <input type="file" onChange={selectMyPhoto} className={css.file} />}
         </div>
         <div className={css.descriptionContent}>
           <div>

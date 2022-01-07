@@ -5,6 +5,16 @@
 
 .photo {
   grid-column: 1;
+  grid-row: 1;
+}
+
+.photo img {
+  width: 70%;
+}
+
+.file {
+  grid-column: 1;
+  grid-row: 2;
 }
 
 .descriptionContent {
