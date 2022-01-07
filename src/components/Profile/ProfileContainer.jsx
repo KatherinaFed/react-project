@@ -7,6 +7,7 @@ import {
   getProfileThunk,
   getStatusThunk,
   updateStatusThunk,
+  savePhotoThunk
 } from '../../redux/profileReducer';
 import Profile from './Profile';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
@@ -19,6 +20,7 @@ const ProfileContainer = (props) => {
     profile,
     status,
     updateStatusThunk,
+    savePhotoThunk
   } = props;
 
   const profileId = useMatch('/profile/:userId/');
@@ -37,9 +39,11 @@ const ProfileContainer = (props) => {
     <div>
       <Profile
         {...props}
+        isOwner={!!id}
         profile={profile}
         status={status}
         updateStatus={updateStatusThunk}
+        savePhoto={savePhotoThunk}
       />
     </div>
   );
@@ -72,6 +76,7 @@ export default compose(
     getProfileThunk,
     getStatusThunk,
     updateStatusThunk,
+    savePhotoThunk,
   }),
   // withRouter,
   withAuthNavigate
