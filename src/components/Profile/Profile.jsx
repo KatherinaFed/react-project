@@ -3,7 +3,8 @@ import React from 'react';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 
-const Profile = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
+const ProfileMemo = ({ profile, status, updateStatus, isOwner, savePhoto, saveProfile }) => {
+  console.log('RENDER');
   return (
     <div>
       <ProfileInfo
@@ -12,10 +13,13 @@ const Profile = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
         status={status}
         updateStatus={updateStatus}
         savePhoto={savePhoto}
+        saveProfile={saveProfile}
       />
       <MyPostsContainer />
     </div>
   );
 };
+
+const Profile = React.memo(ProfileMemo);
 
 export default Profile;

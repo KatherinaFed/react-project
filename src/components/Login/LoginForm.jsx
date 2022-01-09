@@ -26,6 +26,7 @@ const LoginForm = ({ login }) => {
     initialValues,
     logInSchema,
     onSubmit: (values, { setSubmitting, setStatus }) => {
+      console.log(values)
       onSubmit(values, setSubmitting, setStatus);
     },
   });
@@ -58,6 +59,7 @@ const LoginForm = ({ login }) => {
           type="checkbox"
           name="rememberMe"
           value={values.rememberMe}
+          onChange={handleChange}
         />
         <label htmlFor="rememberMe">Remember me</label>
       </div>

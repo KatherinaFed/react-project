@@ -9,12 +9,16 @@
 }
 
 .photo img {
-  width: 70%;
+  width: 50%;
 }
 
 .file {
   grid-column: 1;
   grid-row: 2;
+}
+
+.contacts img {
+  padding: 10px;
 }
 
 .descriptionContent {

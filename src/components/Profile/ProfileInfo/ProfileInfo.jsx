@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import css from './ProfileInfo.module.css';
 
-import Preloader from '../../common/Preloader/Preloader';
 import userPhoto from '../../../assets/images/users.png';
-import ProfileStatusHook from './ProfileStatusHook';
+import headerUser from '../../../assets/images/headerUser.jpg';
+import facebookIcon from '../../../assets/images/icons/facebook.png';
+import instagramIcon from '../../../assets/images/icons/instagram.png';
+import youtubeIcon from '../../../assets/images/icons/youtube.png';
+import twitterIcon from '../../../assets/images/icons/twitter.png';
+import githubIcon from '../../../assets/images/icons/github.png';
+import vkIcon from '../../../assets/images/icons/vk.png';
+import websiteIcon from '../../../assets/images/icons/website.png';
+import mainLinkIcon from '../../../assets/images/icons/mainLink.png';
+import lookingForAJobIcon from '../../../assets/images/icons/lookingForAJob.png';
+import iHaveAJobIcon from '../../../assets/images/icons/iHaveAJob.png';
 
-const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
+import Preloader from '../../common/Preloader/Preloader';
+import ProfileStatusHook from './ProfileStatusHook';
+import ProfileDataForm from './ProfileInfoForm';
+
+const ProfileInfo = ({
+  profile,
+  status,
+  updateStatus,
+  isOwner,
+  savePhoto,
+  saveProfile,
+}) => {
+  const [editMode, setEditMode] = useState(false);
+
   if (!profile) {
     return <Preloader />;
   }
@@ -19,50 +41,106 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
   return (
     <div>
       <div className={css.headerImage}>
-        <img src="https://images.unsplash.com/photo-1509225770129-fbcf8a696c0b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGFub3JhbWF8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" alt="" />
+        <img src={headerUser} alt="" />
       </div>
       <div className={css.descriptionWrapper}>
         <div className={css.photo}>
-          <img src={profile.photos.large || userPhoto} alt="photo" />
+          <img src={profile.photos.large || userPhoto} alt="" />
         </div>
         <div className={css.file}>
-        {isOwner && <input type="file" onChange={selectMyPhoto} className={css.file} />}
-        </div>
-        <div className={css.descriptionContent}>
+          {isOwner && (
+            <input type="file" onChange={selectMyPhoto} className={css.file} />
+          )}
           <div>
             <h3>Status:</h3>
             <ProfileStatusHook status={status} updateStatus={updateStatus} />
           </div>
-          <div>
-            <h3>My name:</h3> {profile.fullName}
-          </div>
-          <div>
-            <h3>About me:</h3>
-            {profile.aboutMe}
-          </div>
-          <div>
-            <h3>Contacts:</h3>
-            <img src="https://img.icons8.com/office/30/000000/facebook-new.png" alt="" />
-            <img src="https://img.icons8.com/office/30/000000/instagram-new.png" alt="" />
-            <img src="https://img.icons8.com/office/30/000000/youtube-play.png" alt="" />
-            <img src="https://img.icons8.com/office/30/000000/twitter.png" alt="" />
-          </div>
-          <div>
-            <h3>I am looking for a job:</h3>
-            {profile.lookingForAJob ? (
-              <img src="https://img.icons8.com/office/40/000000/binoculars.png" alt="" />
-            ) : (
-              <img src="https://img.icons8.com/color/48/000000/man-with-money-skin-type-3.png" alt="" />
-            )}
-          </div>
-          <div>
-            <h3>Job description:</h3>
-            {profile.lookingForAJobDescription}
-          </div>
+        </div>
+        <div className={css.descriptionContent}>
+          {editMode ? (
+            <ProfileDataForm
+              profile={profile}
+              saveProfile={saveProfile}
+              setEditMode={setEditMode}
+            />
+          ) : (
+            <ProfileData
+              isOwner={isOwner}
+              profile={profile}
+              setEditMode={setEditMode}
+            />
+          )}
         </div>
       </div>
     </div>
   );
+};
+
+const ProfileData = ({ isOwner, profile, setEditMode }) => {
+  // debugger
+  return (
+    <>
+      {isOwner && (
+        <div>
+          <button onClick={() => setEditMode(true)}>Edit profile</button>
+        </div>
+      )}
+      <div>
+        <h3>My name:</h3> {profile.fullName}
+      </div>
+      <div>
+        <h3>About me:</h3>
+        {profile.aboutMe}
+      </div>
+      <div className={css.contacts}>
+        <h3>Contacts:</h3>
+        {Object.keys(profile.contacts).map((key) => {
+          return (
+            <Contacts
+              key={key}
+              contactTitle={key}
+              contactValue={profile.contacts[key]}
+            />
+          );
+        })}
+      </div>
+      <div>
+        <h3>I am looking for a job:</h3>
+        <LookingForAJob profile={profile} />
+      </div>
+      <div>
+        <h3>Job description:</h3>
+        {profile.lookingForAJobDescription}
+      </div>
+    </>
+  );
+};
+
+const Contacts = ({ contactTitle, contactValue }) => {
+  const icons = {
+    github: githubIcon,
+    vk: vkIcon,
+    facebook: facebookIcon,
+    instagram: instagramIcon,
+    twitter: twitterIcon,
+    youtube: youtubeIcon,
+    mainLink: mainLinkIcon,
+    website: websiteIcon,
+  };
+
+  return (
+    contactValue && (
+      <a href={contactValue}>
+        <img src={icons[contactTitle]} alt="icon" />
+      </a>
+    )
+  );
+};
+
+const LookingForAJob = ({ profile }) => {
+  return profile.lookingForAJob
+  ? (<img src={lookingForAJobIcon} alt="lookingForAJob" />) 
+  : (<img src={iHaveAJobIcon} alt="iHaveAJob" />);
 };
 
 export default ProfileInfo;

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { useMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import {
   getProfileThunk,
   getStatusThunk,
   updateStatusThunk,
-  savePhotoThunk
+  savePhotoThunk,
+  saveProfileThunk
 } from '../../redux/profileReducer';
 import Profile from './Profile';
 import { withAuthNavigate } from '../../hoc/withAuthNavigate';
@@ -20,30 +21,33 @@ const ProfileContainer = (props) => {
     profile,
     status,
     updateStatusThunk,
-    savePhotoThunk
+    savePhotoThunk,
+    saveProfileThunk
   } = props;
 
-  const profileId = useMatch('/profile/:userId/');
+  let id = useParams().id;
 
-  let id = profileId ? profileId.params.userId : authorisedUserId
+  if (!id) {
+    id = authorisedUserId;
+  }
 
   // Аналогично componentDidMount и componentDidUpdate:
   useEffect(() => {
-    const userId = id;
 
-    getProfileThunk(userId);
-    getStatusThunk(userId);
+    getProfileThunk(id);
+    getStatusThunk(id);
   }, [id, getProfileThunk, getStatusThunk]);
 
   return (
     <div>
       <Profile
         {...props}
-        isOwner={!!id}
+        isOwner={!useParams().id}
         profile={profile}
         status={status}
         updateStatus={updateStatusThunk}
         savePhoto={savePhotoThunk}
+        saveProfile={saveProfileThunk}
       />
     </div>
   );
@@ -77,6 +81,7 @@ export default compose(
     getStatusThunk,
     updateStatusThunk,
     savePhotoThunk,
+    saveProfileThunk,
   }),
   // withRouter,
   withAuthNavigate
