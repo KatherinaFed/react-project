@@ -5,6 +5,7 @@ const DELETE_POST = 'DELETE_POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SAVE_PHOTO = 'SAVE_PHOTO';
+const SAVE_PROFILE = 'SAVE_PROFILE';
 
 // default state
 const initialState = {
@@ -45,11 +46,15 @@ const profileReducer = (state = initialState, action) => {
         status: action.status,
       };
     case SAVE_PHOTO:
-      // debugger
       return {
         ...state,
         profile: { ...state.profile, photos: action.photos },
-      }
+      };
+    case SAVE_PROFILE:
+      return {
+        ...state,
+        profile: { ...state.profile, properties: action.profileData },
+      };
     default:
       return state;
   }
@@ -79,12 +84,17 @@ export const setStatus = (status) => ({
 export const savePhoto = (photos) => ({
   type: SAVE_PHOTO,
   photos,
-})
+});
+
+export const saveProfile = (profileData) => ({
+  type: SAVE_PROFILE,
+  profileData,
+});
 
 // THUNK-FUNCTIONS
 export const getProfileThunk = (userId) => async (dispatch) => {
   const response = await profileAPI.getProfile(userId);
-
+  
   dispatch(setUserProfile(response));
 };
 
@@ -107,6 +117,22 @@ export const savePhotoThunk = (file) => async (dispatch) => {
 
   if (response.data.resultCode === 0) {
     dispatch(savePhoto(response.data.data.photos));
+  }
+};
+
+export const saveProfileThunk = (profileData, setStatus) => async (
+  dispatch,
+  getState
+) => {
+  const userId = getState().auth.userId;
+  const response = await profileAPI.saveProfile(profileData);
+
+  if (response.data.resultCode === 0) {
+    dispatch(getProfileThunk(userId));
+  } else {
+    setStatus(response.data.messages[0]);
+
+    return Promise.reject(response.data.messages[0]);
   }
 };
 
