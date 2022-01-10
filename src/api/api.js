@@ -1,13 +1,12 @@
 import * as axios from 'axios';
 
 import BASE_URL from '../components/common/baseUrl';
-import API_KEY from '../components/common/apiKey';
 
 const instance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   headers: {
-    'API-KEY': API_KEY,
+    'API-KEY': process.env.REACT_APP_API_KEY,
   },
 });
 
@@ -61,12 +60,19 @@ export const authAPI = {
   authMe() {
     return instance.get('auth/me').then(({ data }) => data);
   },
-  login(email, password, rememberMe = false) {
+  login(email, password, rememberMe = false, captcha = null) {
     return instance
-      .post('auth/login', { email, password, rememberMe })
+      .post('auth/login', { email, password, rememberMe, captcha })
       .then(({ data }) => data);
   },
   logout() {
     return instance.delete('auth/login').then(({ data }) => data);
+  },
+};
+
+// SECURITY
+export const securityAPI = {
+  getCaptchaUrl() {
+    return instance.get('security/get-captcha-url');
   },
 };
