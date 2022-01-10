@@ -6,7 +6,8 @@ const instance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   headers: {
-    'API-KEY': process.env.REACT_APP_API_KEY,
+    // "API-KEY": process.env.REACT_APP_API_KEY,
+    "API-KEY": "3e0b2939-9c10-403f-95ed-db554510011f",
   },
 });
 

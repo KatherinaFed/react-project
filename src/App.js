@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 import './App.css';
 import store from './redux/reduxStore';
@@ -69,11 +69,11 @@ const AppContainer = connect(mapStateToProps, { initializeApp })(App);
 
 const SamuraiApp = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Provider store={store}>
         <AppContainer />
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
