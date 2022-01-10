@@ -1,12 +1,14 @@
-import { authAPI } from '../api/api';
+import { authAPI, securityAPI } from '../api/api';
 
 const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA';
+const GET_CAPTCHA_URL = 'GET_CAPTCHA_URL';
 
 const initialState = {
   userId: null,
   email: null,
   login: null,
   isAuth: false,
+  captcha: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -16,6 +18,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
       };
+    case GET_CAPTCHA_URL:
+      return {
+        ...state,
+        ...action.payload,
+      }
     default:
       return state;
   }
@@ -32,6 +39,11 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
   },
 });
 
+export const getCaptchaUrl = (captcha) => ({
+  type: GET_CAPTCHA_URL,
+  payload: { captcha },
+})
+
 // THUNK-FUNCTIONS
 export const getAuthUserDataThunk = () => async (dispatch) => {
   const response = await authAPI.authMe();
@@ -42,11 +54,14 @@ export const getAuthUserDataThunk = () => async (dispatch) => {
   }
 };
 
-export const login = (email, password, rememberMe, setStatus) => async (dispatch) => {
-  const response = await authAPI.login(email, password, rememberMe);
+export const login = (email, password, rememberMe, captcha, setStatus) => async (dispatch) => {
+  const response = await authAPI.login(email, password, rememberMe, captcha);
+  // debugger
 
   if (response.resultCode === 0) {
     dispatch(getAuthUserDataThunk());
+  } else if (response.resultCode === 10) {
+    dispatch(getCaptchaUrlThunk());
   } else {
     setStatus(response.messages[0]);
   }
@@ -59,5 +74,12 @@ export const logout = () => async (dispatch) => {
     dispatch(setAuthUserData(initialState));
   }
 };
+
+export const getCaptchaUrlThunk = () => async (dispatch) => {
+  const response = await securityAPI.getCaptchaUrl();
+  const captcha = response.data.url;
+
+  dispatch(getCaptchaUrl(captcha));
+}
 
 export default authReducer;
