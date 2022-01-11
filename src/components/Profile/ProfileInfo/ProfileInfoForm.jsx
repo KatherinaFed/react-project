@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import FormControl from '../../common/Form/FormControl';
 
-const ProfileDataForm = ({ profile, saveProfile, setEditMode }) => {
-  // debugger
+import {
+  Box,
+  Button,
+  FormControl,
+  FormGroup,
+  InputLabel,
+  OutlinedInput,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
+
+import ProfileStatusHook from '../ProfileInfo/ProfileStatusHook';
+import { useEffect } from 'react';
+
+const ProfileDataForm = ({
+  profile,
+  saveProfile,
+  setEditMode,
+  status,
+  updateStatus,
+}) => {
+
+  const [checked, setChecked] = useState(profile.lookingForAJob);
+
+  const handleChecked = (e) => {
+    setChecked(e.target.checked);
+  };
+
   const initialValues = {
     fullName: !profile.fullName ? '' : profile.fullName,
     aboutMe: !profile.aboutMe ? '' : profile.aboutMe,
@@ -41,72 +66,99 @@ const ProfileDataForm = ({ profile, saveProfile, setEditMode }) => {
     lookingForAJobDescription: Yup.string(),
   });
 
-  const { handleChange, handleSubmit, values, status, error } = useFormik({
+  const { handleChange, handleSubmit, values, error } = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (value, setStatus) => {
-      console.log(value);
-      saveProfile(value, setStatus).then(() => {
+      const newValues = {
+        ...value,
+        lookingForAJob: checked,
+      };
+
+      saveProfile(newValues, setStatus).then(() => {
         setEditMode(false);
       });
     },
   });
-  console.log(values.lookingForAJob)
 
   return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit">Save profile</button>
-      {error && <div className="error">
-        Error: {status}
-      </div>}
-      <h3>My name:</h3>
-      <FormControl
-        name={"fullName"}
-        placeholder={"Full name"}
-        type={"text"}
-        value={values.fullName}
-        handleChange={handleChange}
-      />
-      <h3>About me:</h3>
-      <FormControl
-        name={"aboutMe"}
-        placeholder={"About me"}
-        type={"text"}
-        value={values.aboutMe}
-        handleChange={handleChange}
-      />
-      <h3>Contacts:</h3>
-      {Object.keys(profile.contacts).map((key) => {
-        return (
-          <div key={key}>
-            <b>{key}</b>
-            <FormControl
-              name={`contacts.${key}`}
-              placeholder={key}
-              type={"text"}
-              value={values.contacts[key]}
-              handleChange={handleChange}
-            />
-          </div>
-        );
-      })}
-      <h3>I am looking for a job:</h3>
-      <FormControl
-        name={"lookingForAJob"}
-        type={"checkbox"}
-        value={values.lookingForAJob}
-        handleChange={handleChange}
-      />
-      <label htmlFor="lookingForAJob">Yes</label>
-      <h3>Professional skills:</h3>
-      <FormControl
-        name={'lookingForAJobDescription'}
-        placeholder={'Professional skills'}
-        type={'text'}
-        value={values.lookingForAJobDescription}
-        handleChange={handleChange}
-      />
-    </form>
+    <Box
+      sx={{
+        marginTop: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Box component="form" onSubmit={handleSubmit} noValidate>
+        {/* <div>
+          <h3>Status:</h3>
+          <ProfileStatusHook status={status} updateStatus={updateStatus} />
+        </div> */}
+        <FormControl margin="normal" required fullWidth>
+          <InputLabel htmlFor="fullName">Full name</InputLabel>
+          <OutlinedInput
+            id="fullName"
+            name="fullName"
+            type="text"
+            value={values.fullName}
+            onChange={handleChange}
+            label="fullName"
+          />
+        </FormControl>
+        <FormControl margin="normal" fullWidth>
+          <InputLabel htmlFor="aboutMe">About me</InputLabel>
+          <OutlinedInput
+            id="aboutMe"
+            name="aboutMe"
+            type="text"
+            value={values.aboutMe}
+            onChange={handleChange}
+            label="aboutMe"
+          />
+        </FormControl>
+        <h3>Contacts:</h3>
+        {Object.keys(profile.contacts).map((key) => {
+          return (
+            <div key={key}>
+              <FormControl margin="normal" fullWidth>
+                <InputLabel htmlFor={key}>{key}</InputLabel>
+                <OutlinedInput
+                  id={`contacts.${key}`}
+                  name={`contacts.${key}`}
+                  type="text"
+                  value={values.contacts[key]}
+                  onChange={handleChange}
+                  label={key}
+                />
+              </FormControl>
+            </div>
+          );
+        })}
+        <h3>I am looking for a job:</h3>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox checked={checked} onChange={handleChecked} />
+            }
+            label="Yes"
+          />
+        </FormGroup>
+        <h3>Professional skills:</h3>
+        <FormControl margin="normal" fullWidth>
+          <OutlinedInput
+            id="lookingForAJobDescription"
+            name="lookingForAJobDescription"
+            type="text"
+            value={values.lookingForAJobDescription}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+          Save profile
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

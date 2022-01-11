@@ -1,13 +1,14 @@
 import * as axios from 'axios';
 
-import BASE_URL from '../components/common/baseUrl';
+import { API_KEY, BASE_URL } from '../components/common/apiData';
+
+// const API_KEY1 = process.env.REACT_APP_API_KEY;
 
 const instance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   headers: {
-    // "API-KEY": process.env.REACT_APP_API_KEY,
-    "API-KEY": "3e0b2939-9c10-403f-95ed-db554510011f",
+    "API-KEY": API_KEY,
   },
 });
 

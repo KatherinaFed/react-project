@@ -86,15 +86,14 @@ export const savePhoto = (photos) => ({
   photos,
 });
 
-export const saveProfile = (profileData) => ({
-  type: SAVE_PROFILE,
-  profileData,
-});
+export const saveProfile = (profileData) => {
+  return { type: SAVE_PROFILE, profileData };
+};
 
 // THUNK-FUNCTIONS
 export const getProfileThunk = (userId) => async (dispatch) => {
   const response = await profileAPI.getProfile(userId);
-  
+
   dispatch(setUserProfile(response));
 };
 

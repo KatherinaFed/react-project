@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import css from './ProfileInfo.module.css';
+import { Button } from '@mui/material';
 
 import userPhoto from '../../../assets/images/users.png';
 import headerUser from '../../../assets/images/headerUser.jpg';
@@ -51,10 +52,6 @@ const ProfileInfo = ({
           {isOwner && (
             <input type="file" onChange={selectMyPhoto} className={css.file} />
           )}
-          <div>
-            <h3>Status:</h3>
-            <ProfileStatusHook status={status} updateStatus={updateStatus} />
-          </div>
         </div>
         <div className={css.descriptionContent}>
           {editMode ? (
@@ -62,12 +59,16 @@ const ProfileInfo = ({
               profile={profile}
               saveProfile={saveProfile}
               setEditMode={setEditMode}
+              status={status}
+              updateStatus={updateStatus}
             />
           ) : (
             <ProfileData
               isOwner={isOwner}
               profile={profile}
               setEditMode={setEditMode}
+              status={status}
+              updateStatus={updateStatus}
             />
           )}
         </div>
@@ -76,15 +77,17 @@ const ProfileInfo = ({
   );
 };
 
-const ProfileData = ({ isOwner, profile, setEditMode }) => {
+const ProfileData = ({ isOwner, profile, setEditMode, status, updateStatus }) => {
   // debugger
   return (
     <>
       {isOwner && (
-        <div>
-          <button onClick={() => setEditMode(true)}>Edit profile</button>
-        </div>
+        <Button onClick={() => setEditMode(true)} variant="contained">Edit profile</Button>
       )}
+      <div>
+        <h3>Status:</h3>
+        <ProfileStatusHook status={status} updateStatus={updateStatus} />
+      </div>
       <div>
         <h3>My name:</h3> {profile.fullName}
       </div>
@@ -138,9 +141,11 @@ const Contacts = ({ contactTitle, contactValue }) => {
 };
 
 const LookingForAJob = ({ profile }) => {
-  return profile.lookingForAJob
-  ? (<img src={lookingForAJobIcon} alt="lookingForAJob" />) 
-  : (<img src={iHaveAJobIcon} alt="iHaveAJob" />);
+  return profile.lookingForAJob ? (
+    <img src={lookingForAJobIcon} alt="lookingForAJob" />
+  ) : (
+    <img src={iHaveAJobIcon} alt="iHaveAJob" />
+  );
 };
 
 export default ProfileInfo;

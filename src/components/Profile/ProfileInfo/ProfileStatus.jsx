@@ -16,8 +16,10 @@ class ProfileStatus extends React.Component {
   };
 
   onStatusChange = (e) => {
-    if (this.state.status.length <= 300) {
+    if (this.state.status.length <= 100) {
       this.setState({ status: e.currentTarget.value });
+    } else {
+
     }
   };
 
@@ -48,7 +50,7 @@ class ProfileStatus extends React.Component {
               onBlur={this.deactivateEditMode}
               value={this.state.status}
             />
-            <div>{this.state.status.length}/300</div>
+            <div>{this.state.status.length}/100</div>
           </div>
         )}
       </div>

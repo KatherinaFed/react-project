@@ -1,10 +1,10 @@
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import SamuraiApp from './App';
 
 ReactDOM.render(
-  <App />,
+  <SamuraiApp />,
   document.getElementById('root')
 );
 
