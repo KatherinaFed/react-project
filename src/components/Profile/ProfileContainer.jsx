@@ -33,7 +33,6 @@ const ProfileContainer = (props) => {
 
   // Аналогично componentDidMount и componentDidUpdate:
   useEffect(() => {
-
     getProfileThunk(id);
     getStatusThunk(id);
   }, [id, getProfileThunk, getStatusThunk]);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Input } from '@mui/material';
 
 // Использование useEffect позволяет синхронизировать сущности,
 // находящиеся за пределами дерева React, со свойствами и состоянием.
@@ -29,14 +30,15 @@ const ProfileStatusHook = (props) => {
     <div>
       {editMode ? (
         <div>
-          <input
+          <Input
             data-testid="input"
             autoFocus={true}
             onChange={onStatusChange}
             onBlur={deactivateEditMode}
             value={status}
+            maxLength="20"
           />
-          <div>{300 - status.length}/300</div>
+          <div>{20 - status.length}/20</div>
         </div>
       ) : (
         <div>

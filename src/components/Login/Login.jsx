@@ -10,7 +10,6 @@ const Login = ({ isAuth, login, captcha }) => {
   }
   return (
     <div className={css.formWrapper}>
-      <h1>Login</h1>
       <LoginForm login={login} captcha={captcha} />
     </div>
   );

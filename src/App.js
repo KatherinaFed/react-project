@@ -16,6 +16,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 // import LoginContainer from './components/Login/LoginContainer';
 import { initializeApp } from './redux/appReducer';
 import Preloader from './components/common/Preloader/Preloader';
+import NotFound from './components/NotFound';
 
 const DialogsContainer = React.lazy(() =>
   import('./components/Dialogs/DialogsContainer')
@@ -35,7 +36,7 @@ class App extends React.Component {
     if (!this.props.initialized) {
       return <Preloader />;
     }
-
+    
     return (
       <div className="app-wrapper">
         <HeaderContainer />
@@ -43,9 +44,11 @@ class App extends React.Component {
         <div className="app-wrapper-content">
           <React.Suspense fallback={<Preloader />}>
             <Routes>
+              <Route path="/" element={<ProfileContainer />} />
               <Route path="profile" element={<ProfileContainer />}>
                 <Route path="/profile/:id" element={<Profile />} />
               </Route>
+              <Route path="*" element={<NotFound />} />
               <Route path="/dialogs" element={<DialogsContainer />} />
               <Route path="/login" element={<LoginContainer />} />
               <Route path="/users" element={<UsersContainer />} />
