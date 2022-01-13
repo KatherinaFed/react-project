@@ -32,10 +32,12 @@ class App extends React.Component {
   componentDidMount() {
     this.props.initializeApp();
   }
+  
   render() {
     if (!this.props.initialized) {
       return <Preloader />;
     }
+    console.log('RENDER APP')
     
     return (
       <div className="app-wrapper">

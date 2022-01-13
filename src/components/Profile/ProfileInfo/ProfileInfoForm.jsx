@@ -13,15 +13,10 @@ import {
   Checkbox,
 } from '@mui/material';
 
-import ProfileStatusHook from '../ProfileInfo/ProfileStatusHook';
-import { useEffect } from 'react';
-
 const ProfileDataForm = ({
   profile,
   saveProfile,
   setEditMode,
-  status,
-  updateStatus,
 }) => {
 
   const [checked, setChecked] = useState(profile.lookingForAJob);
@@ -91,10 +86,6 @@ const ProfileDataForm = ({
       }}
     >
       <Box component="form" onSubmit={handleSubmit} noValidate>
-        {/* <div>
-          <h3>Status:</h3>
-          <ProfileStatusHook status={status} updateStatus={updateStatus} />
-        </div> */}
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="fullName">Full name</InputLabel>
           <OutlinedInput
