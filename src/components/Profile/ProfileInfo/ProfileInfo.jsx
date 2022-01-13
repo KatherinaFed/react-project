@@ -59,8 +59,6 @@ const ProfileInfo = ({
               profile={profile}
               saveProfile={saveProfile}
               setEditMode={setEditMode}
-              status={status}
-              updateStatus={updateStatus}
             />
           ) : (
             <ProfileData

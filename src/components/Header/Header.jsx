@@ -1,22 +1,66 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import {
+  Avatar,
+  AppBar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+  createTheme,
+  ThemeProvider,
+} from '@mui/material';
+import { green } from '@mui/material/colors';
 import css from './Header.module.css';
 
-const Header = ({ isAuth, login, logout }) => {
-// debugger
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: green[500],
+    },
+    secondary: {
+      main: green[700],
+    },
+  },
+});
+
+const Header2 = ({ isAuth, login, logout }) => {
   return (
-    <header className={css.header}>
-      <img src="https://www.pikpng.com/pngl/b/88-889337_kingfisher-logo-png.png" alt="" />
-      <div className={css.loginBlock}>
-        {isAuth
-          ? (<>
-            <div>{login}</div>
-            <button type="button" onClick={logout}>Logout</button>
-            </>)
-          : (<NavLink to="/login"><button type="button">Login</button></NavLink>)}
-      </div>
-    </header>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ flexGrow: 2, bgcolor: 'primary.main' }} className={css.header}>
+        <AppBar position="static">
+          <Container fixed>
+            <Toolbar>
+              <Typography variant="h6"sx={{ flexGrow: 1 }}>
+                The Way of the Samurai
+              </Typography>
+              {isAuth ? (
+                <>
+                  <Box mr={3}>
+                    <Typography variant="h6"placement="right">
+                      {login}
+                    </Typography>
+                  </Box>
+                  <Button variant="contained" onClick={logout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <NavLink to="/login">
+                  <Button variant="outlined">Login</Button>
+                </NavLink>
+              )}
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </Box>
+    </ThemeProvider>
   );
 };
-
-export default Header;
+export default Header2;
+// export default Header;
